@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-package mumetaapp;
+package interfaces;
 
 /**
  *
@@ -12,4 +12,9 @@ package mumetaapp;
  */
 public interface Event {
     
+    public String getDescription();
+    
+    public String getKind();
+    
+    public String getData();
 }
