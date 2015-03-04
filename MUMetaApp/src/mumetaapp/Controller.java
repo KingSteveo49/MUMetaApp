@@ -16,5 +16,28 @@ public class Controller {
     
     public void manageEvent(Event e){
         
+        String eventKind = e.getKind();
+        
+        switch(eventKind)
+        {
+            case "open":
+                //Check Status
+                //Update Status
+                //Send Open Event back to GUI
+                //Steve Says Open Again w/ Path
+                //Send Path to Model
+                //Model return Info
+                //Send Info to GUI
+                return;
+                
+            case "delete":
+                return;
+                
+            case "save":
+                return;
+                
+            default:
+                return;
+        }
     }
 }

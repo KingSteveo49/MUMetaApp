@@ -15,17 +15,17 @@ public class OpenEvent implements Event{
     
     @Override
     public String getDescription(){
-        return "Hello";
+        return "This is an Open Event";
     }
     
     @Override
     public String getKind(){
-        return "Hello";
+        return "open";
     }
     
     @Override
     public String getData(){
-        return "Hello";
+        return "open data";
     }
     
 }
