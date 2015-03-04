@@ -6,6 +6,8 @@
 
 package mumetaapp;
 
+import interfaces.*;
+import interfaces.events.*;
 import java.io.File;
 import javax.swing.JFileChooser;
 
@@ -148,18 +150,23 @@ public class GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         JFileChooser fc = new JFileChooser();
         String newline = "\n";
+        Controller cr = new Controller();
+        Event OE = new OpenEvent();
         
-        int returnVal = fc.showOpenDialog(GUI.this);
+        
+//        int returnVal = fc.showOpenDialog(GUI.this);
  
-            if (returnVal == JFileChooser.APPROVE_OPTION) {
-                File file = fc.getSelectedFile();
-                //This is where a real application would open the file.
-                FeedbackFlatererOutput.append("Opening: " + file.getName() +"." + newline);
-                FeedbackFlatererOutput.append("Loaction: " + file.getPath() +"." + newline);
-            } else {
-                FeedbackFlatererOutput.append("Open command cancelled by user." + newline);
-            }
-                FeedbackFlatererOutput.setCaretPosition(FeedbackFlatererOutput.getDocument().getLength());
+//            if (returnVal == JFileChooser.APPROVE_OPTION) {
+//                File file = fc.getSelectedFile();
+//                //This is where a real application would open the file.
+//                FeedbackFlatererOutput.append("Opening: " + file.getName() +"." + newline);
+//                FeedbackFlatererOutput.append("Loaction: " + file.getPath() +"." + newline);
+//            } else {
+//                FeedbackFlatererOutput.append("Open command cancelled by user." + newline);
+//            }
+//                FeedbackFlatererOutput.setCaretPosition(FeedbackFlatererOutput.getDocument().getLength());
+        
+        cr.eventManager();
         
     }//GEN-LAST:event_MainMenuOpenActionPerformed
 
