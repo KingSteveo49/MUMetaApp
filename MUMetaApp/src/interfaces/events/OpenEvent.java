@@ -13,14 +13,17 @@ import interfaces.*;
  */
 public class OpenEvent implements Event{
     
+    @Override
     public String getDescription(){
         return "Hello";
     }
     
+    @Override
     public String getKind(){
         return "Hello";
     }
     
+    @Override
     public String getData(){
         return "Hello";
     }
