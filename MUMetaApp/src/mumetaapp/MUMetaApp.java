@@ -6,6 +6,9 @@
 
 package mumetaapp;
 
+import java.io.File;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author sdmiller2015
@@ -143,6 +146,20 @@ public class MUMetaApp extends javax.swing.JFrame {
 
     private void MainMenuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuOpenActionPerformed
         // TODO add your handling code here:
+        JFileChooser fc = new JFileChooser();
+        String newline = "\n";
+        
+        int returnVal = fc.showOpenDialog(MUMetaApp.this);
+ 
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                //This is where a real application would open the file.
+                FeedbackFlatererOutput.append("Opening: " + file.getName() +"." + newline);
+                FeedbackFlatererOutput.append("Loaction: " + file.getPath() +"." + newline);
+            } else {
+                FeedbackFlatererOutput.append("Open command cancelled by user." + newline);
+            }
+                FeedbackFlatererOutput.setCaretPosition(FeedbackFlatererOutput.getDocument().getLength());
         
     }//GEN-LAST:event_MainMenuOpenActionPerformed
 
