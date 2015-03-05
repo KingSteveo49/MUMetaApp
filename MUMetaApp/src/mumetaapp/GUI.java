@@ -16,7 +16,7 @@ import javax.swing.JFileChooser;
  * @author sdmiller2015
  */
 public class GUI extends javax.swing.JFrame {
-
+     Controller cr = new Controller();
     /**
      * Creates new form MUMetaApp
      */
@@ -152,7 +152,7 @@ public class GUI extends javax.swing.JFrame {
 //        JFileChooser fc = new JFileChooser();
 //        String newline = "\n";
         
-        Controller cr = new Controller();
+       
         Event OE = new OpenEvent("User wishes to open a file", "open", null);
         
         
@@ -171,7 +171,9 @@ public class GUI extends javax.swing.JFrame {
         cr.manageEvent(OE);
         
     }//GEN-LAST:event_MainMenuOpenActionPerformed
+    public void manageEvent(Event e){
 
+    }
     /**
      * @param args the command line arguments
      */
@@ -202,6 +204,7 @@ public class GUI extends javax.swing.JFrame {
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new GUI().setVisible(true);
             }
