@@ -172,7 +172,23 @@ public class GUI extends javax.swing.JFrame {
         
     }//GEN-LAST:event_MainMenuOpenActionPerformed
     public void manageEvent(Event e){
-
+        
+        String eventKind = e.getKind();
+        switch(eventKind)
+        {
+            case "open":
+                
+                return;
+                
+            case "delete":
+                return;
+                
+            case "save":
+                return;
+                
+            default:
+                return;
+        }
     }
     /**
      * @param args the command line arguments
