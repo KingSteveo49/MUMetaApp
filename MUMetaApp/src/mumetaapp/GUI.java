@@ -148,10 +148,12 @@ public class GUI extends javax.swing.JFrame {
 
     private void MainMenuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuOpenActionPerformed
         // TODO add your handling code here:
-        JFileChooser fc = new JFileChooser();
-        String newline = "\n";
+        
+//        JFileChooser fc = new JFileChooser();
+//        String newline = "\n";
+        
         Controller cr = new Controller();
-        Event OE = new OpenEvent("USer wishes to open a file", "open", null);
+        Event OE = new OpenEvent("User wishes to open a file", "open", null);
         
         
 //        int returnVal = fc.showOpenDialog(GUI.this);
