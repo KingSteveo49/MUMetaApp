@@ -13,19 +13,39 @@ import interfaces.*;
  */
 public class ProjectInfoType implements InfoType{
     
+    private String description;
+    private String kind;
+    private Object data;
+    private String type;
+    
+    public ProjectInfoType(String d, String k, Object o, String t){
+        description = d;
+        kind = k;
+        data = o;
+        type = t;
+    }
+    
+    //Description of Info
+    @Override
     public String getDescription(){
-        return "Hello";
+        return "This a project info type or something";
     }
     
+    //The Kind of Info Being played with
+    @Override
     public String getKind(){
-        return "Hello";
+        return "project";
     }
     
+    //[path+content,path,path+content,path]
+    @Override
     public String getData(){
-        return "Hello";
+        return "H:/test";
     }
    
+    //[update,delete,set,get]
+    @Override
     public String getType(){
-        return "Hello";
+        return "set";
     }
 }
