@@ -5,36 +5,36 @@
  */
 
 package interfaces.events;
-import interfaces.*;
+
+import interfaces.Event;
 
 /**
  *
- * @author bmbolen2017
+ * @author sdmiller2015
  */
-public class OpenEvent implements Event{
+public class CloseEvent implements Event{
     
     private String description, kind;
     private Object data;
     
-    public OpenEvent(String d, String k, Object o){
+    public CloseEvent(String d, String k, Object o){
         description = d;
         kind = k;
         data = o;
     }
     
-    @Override
+     @Override
     public String getDescription(){
-        return "This is an Open Event";
+        return "This is a Close Event";
     }
     
     @Override
     public String getKind(){
-        return "open";
+        return "close";
     }
     
     @Override
     public String getData(){
-        return "open data";
+        return "close data";
     }
-    
 }
