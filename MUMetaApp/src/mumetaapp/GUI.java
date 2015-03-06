@@ -149,28 +149,33 @@ public class GUI extends javax.swing.JFrame {
     private void MainMenuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuOpenActionPerformed
         // TODO add your handling code here:
         
-//        JFileChooser fc = new JFileChooser();
-//        String newline = "\n";
         
        
         Event OE = new OpenEvent("User wishes to open a file", "open", null);
         
         
-//        int returnVal = fc.showOpenDialog(GUI.this);
- 
-//            if (returnVal == JFileChooser.APPROVE_OPTION) {
-//                File file = fc.getSelectedFile();
-//                //This is where a real application would open the file.
-//                FeedbackFlatererOutput.append("Opening: " + file.getName() +"." + newline);
-//                FeedbackFlatererOutput.append("Loaction: " + file.getPath() +"." + newline);
-//            } else {
-//                FeedbackFlatererOutput.append("Open command cancelled by user." + newline);
-//            }
-//                FeedbackFlatererOutput.setCaretPosition(FeedbackFlatererOutput.getDocument().getLength());
+        
         
         cr.manageEvent(OE);
         
     }//GEN-LAST:event_MainMenuOpenActionPerformed
+    private void displayFileChooser(){
+        JFileChooser fc = new JFileChooser();
+        String newline = "\n";
+        
+        int returnVal = fc.showOpenDialog(GUI.this);
+ 
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fc.getSelectedFile();
+                //This is where a real application would open the file.
+                FeedbackFlatererOutput.append("Opening: " + file.getName() +"." + newline);
+                FeedbackFlatererOutput.append("Loaction: " + file.getPath() +"." + newline);
+            } else {
+                FeedbackFlatererOutput.append("Open command cancelled by user." + newline);
+            }
+                FeedbackFlatererOutput.setCaretPosition(FeedbackFlatererOutput.getDocument().getLength());
+        
+    }
     public void manageEvent(Event e){
         
         String eventKind = e.getKind();
@@ -178,7 +183,7 @@ public class GUI extends javax.swing.JFrame {
         {
             case "open":
                 
-                return;
+                displayFileChooser();
                 
             case "delete":
                 return;
