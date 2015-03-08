@@ -149,12 +149,7 @@ public class GUI extends javax.swing.JFrame {
     private void MainMenuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuOpenActionPerformed
         // TODO add your handling code here:
         
-        
-       
         Event OE = new OpenEvent("User wishes to open a file", "open", null);
-        
-        
-        
         
         cr.manageEvent(OE);
         
@@ -182,7 +177,6 @@ public class GUI extends javax.swing.JFrame {
         switch(eventKind)
         {
             case "open":
-                
                 displayFileChooser();
                 
             case "delete":
