@@ -17,6 +17,7 @@ import javax.swing.JFileChooser;
  */
 public class GUI extends javax.swing.JFrame {
      Controller cr = new Controller();
+     GUI gui = new GUI();
     /**
      * Creates new form MUMetaApp
      */
@@ -140,20 +141,34 @@ public class GUI extends javax.swing.JFrame {
 
     private void MainMenuRenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuRenameActionPerformed
         // TODO add your handling code here:
+        interfaces.Event RE = new RenameEvent("User wishes to open a file", "rename", null);
+        
+        cr.manageEvent(RE);
     }//GEN-LAST:event_MainMenuRenameActionPerformed
 
     private void MainMenuDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuDeleteActionPerformed
         // TODO add your handling code here:
+        interfaces.Event DE = new DeleteEvent("User wishes to delete a project", "delete", null);
+        
+        cr.manageEvent(DE);
     }//GEN-LAST:event_MainMenuDeleteActionPerformed
 
     private void MainMenuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuOpenActionPerformed
         // TODO add your handling code here:
         
-        Event OE = new OpenEvent("User wishes to open a file", "open", null);
+        interfaces.Event OE = new OpenEvent("User wishes to open a file", "open", null);
         
         cr.manageEvent(OE);
         
     }//GEN-LAST:event_MainMenuOpenActionPerformed
+   /*
+    The following method will display a file chooser dialog box for the user.
+    
+    Once the user has chosen a file location it will then send that location
+    back to the controller so it can figure out what to do with it.
+    
+    Also outputs to some text areas in this iteration for testing purposes.
+    */
     private void displayFileChooser(){
         JFileChooser fc = new JFileChooser();
         String newline = "\n";
@@ -162,22 +177,39 @@ public class GUI extends javax.swing.JFrame {
  
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                //This is where a real application would open the file.
+                interfaces.Event e = new FileLocationChosenEvent("The user has selected a file location", "filelocationchosen", file.getPath());
+                //This is where the application would open the file.
                 FeedbackFlatererOutput.append("Opening: " + file.getName() +"." + newline);
                 FeedbackFlatererOutput.append("Loaction: " + file.getPath() +"." + newline);
+                cr.manageEvent(e);
             } else {
                 FeedbackFlatererOutput.append("Open command cancelled by user." + newline);
             }
                 FeedbackFlatererOutput.setCaretPosition(FeedbackFlatererOutput.getDocument().getLength());
         
     }
-    public void manageEvent(Event e){
+    /*
+    The following method is the brains of the GUI. 
+    
+    It takes in an event given by the controller and calls the correct method
+    based on the type of event that was sent.
+    */
+    public void manageEvent(interfaces.Event e){
         
         String eventKind = e.getKind();
         switch(eventKind)
         {
             case "open":
                 displayFileChooser();
+                
+            case "create":
+                return;
+                
+            case "rename":
+                return;
+                
+            case "filelocationchosen":
+                return;
                 
             case "delete":
                 return;
