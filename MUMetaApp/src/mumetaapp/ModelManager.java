@@ -6,6 +6,8 @@
 
 package mumetaapp;
 
+import interfaces.InfoType;
+import interfaces.infotypes.ProjectInfoType;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
@@ -20,20 +22,7 @@ import java.util.logging.Logger;
 
 public class ModelManager 
 {
-	
-    public static void main(String[] args) 
-    {
-        String path = "H:/(SoftDevII)/Meta-App v0.5";
-        createNewProjectStructure(path);
-    }
-
-	// Call this when you need to get information form the
-	// model, including the root dir and info type
-    // and it will return the results
-	public static String getInfo(String root, String infoType)
-	{
-		return "getInfo worx!";
-	}
+	 
 	
 	// Call this when you need to set information in the
     // model, including the root dir, info type and

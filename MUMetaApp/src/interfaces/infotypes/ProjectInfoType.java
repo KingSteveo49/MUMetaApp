@@ -31,7 +31,7 @@ public class ProjectInfoType implements InfoType{
         return "This a project info type or something";
     }
     
-    //The Kind of Info Being played with
+    //The Kind of Info Being played with [project, config, etc]
     @Override
     public String getKind(){
         return "project";
