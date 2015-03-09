@@ -8,9 +8,16 @@ package mumetaapp;
 
 import interfaces.InfoType;
 import interfaces.infotypes.ProjectInfoType;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -22,72 +29,116 @@ import java.util.logging.Logger;
 
 public class ModelManager 
 {
-	 
-	
-	// Call this when you need to set information in the
-    // model, including the root dir, info type and
-	// the new info and it will return with an affirmative
-	public static String setInfo(String root, String infoType, String neoInfo)
-	{
-		return "setInfo works!";
-	}
-	
-	// Call this when you need to delete information in the
-    // model, including the root dir and info type 
-    // it will return with an affirmative
-	public static String deleteInfo(String root, String infoType)
-	{
-		return "deleteInfo works!";
-	}
-        
-    // Compares ghost info to the info type in the root, looking for dirty bits
-    public static String dirtyCheck(String root, String infoType, String ghostInfo)
-    {
-            return "checked for dirty";
-    }
-        
-    private static String readFromFile(String path)
-    {
-        File filename = new File(path);
-        Scanner scan = null;
-        String contents = "";
-        try 
+    
+        public static InfoType manageInfoType(InfoType i)
         {
-            scan = new Scanner(filename);
-            while(scan.hasNextLine())
+            switch(i.getKind())
             {
-                contents += scan.nextLine();
-                // System.out.println(scan.nextLine());
+                case "project":
+                    return manageProjectInfoType( (ProjectInfoType) i );   
+                default:
+                    return null;
             }
         }
-        catch(FileNotFoundException e)
+        
+        public static InfoType manageProjectInfoType(ProjectInfoType i)
         {
-            contents = "ERROR: Your path was crap...";
-            e.printStackTrace();
-        }
-        return contents;
-    }
-    
-    private static boolean writeToFile(String path, String info)
-    {
-        File filename = new File(path);
-        try 
-        {
-            PrintWriter outputStream = new PrintWriter(filename);
-            outputStream.println(info);
-            outputStream.flush();
-            outputStream.close();
-        }
-        catch (FileNotFoundException e) 
-        {
-            e.printStackTrace();
+            String path = i.getData(); //i.getPath()
+            String content = i.getData();
+            Object data = "";
+            switch(i.getType())
+            {
+                //Expecting Path and Content in Data
+                case "update":
+                //Expecting Path in Data
+                case "delete":
+                //Expecting Path and Content in Data
+                case "set":
+                    data = writeToFile(path,content.toString());
+                    break;
+                //Expecting Path in Data
+                case "get":
+                    data = readFromFile(path); //Object data = //When Serializable happens
+                    break;
+                default:
+                    break;
+            }
+            
+            return new ProjectInfoType("Return results","results",data, "set");
         }
         
-        return true;
-    }
 
-    private static boolean createNewProjectStructure(String path)
-    {
+        
+        // Compares ghost file to filepath, looking for dirty bits
+        public static String dirtyCheck(String filepath, String ghostfile)
+        {
+                return "checked for dirty";
+        }
+        
+        private static Object readFromFile(String path)
+        {
+            File filename = new File(path);
+            Scanner scan = null;
+            String contents = "";
+            try 
+            {
+                scan = new Scanner(filename);
+                while(scan.hasNextLine())
+                {
+                    contents += scan.nextLine();
+                    System.out.println(scan.nextLine());
+                }
+            }
+            catch(FileNotFoundException e)
+            {
+                contents = "ERROR: Your path was crap...";
+//                e.printStackTrace();
+            }
+            return contents;
+        }
+        
+        // Read a Serializable from file
+        private static Object readSerializable(String path)
+        {
+            return null;
+        }
+        
+        // Writes a Serializable to a file
+        private static Object writeToFile(String path, Serializable info)
+        {
+            try (
+              OutputStream file = new FileOutputStream(path);
+              OutputStream buffer = new BufferedOutputStream(file);
+              ObjectOutput output = new ObjectOutputStream(buffer);
+            ){
+              output.writeObject(info);
+            }  
+            catch(IOException ex){
+              
+            }
+            return null;
+        }
+        
+        private static Object writeToFile(String path, String info)
+        {
+            File filename = new File(path);
+            try 
+            {
+                PrintWriter outputStream = new PrintWriter(filename);
+                outputStream.println(info);
+                outputStream.flush();
+                outputStream.close();
+            }
+            catch (FileNotFoundException e) 
+            {
+                return e.getStackTrace();
+            }
+            
+            return "File Successfully Written To";
+        }
+        
+        private static boolean createNewProjectStructure(String path)
+        {
         path += "/root";
         String root = path;
         String src = path+"/src";
