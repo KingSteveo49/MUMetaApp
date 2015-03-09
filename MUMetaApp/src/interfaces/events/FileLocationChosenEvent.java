@@ -35,7 +35,7 @@ public class FileLocationChosenEvent implements interfaces.Event{
     
     @Override
     public String getData(){
-        return "File location data";
+        return (String) data;
     }
     
 }

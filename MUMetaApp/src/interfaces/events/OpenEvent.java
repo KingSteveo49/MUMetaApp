@@ -34,7 +34,11 @@ public class OpenEvent implements Event{
     
     @Override
     public String getData(){
-        return "open data";
+        return "data";
+    }
+    
+    public Object getDatas(){
+        return data;
     }
     
 }

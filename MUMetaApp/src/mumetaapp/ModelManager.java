@@ -7,6 +7,8 @@
 package mumetaapp;
 
 import interfaces.InfoType;
+import interfaces.events.FeedbackEvent;
+import interfaces.events.OpenEvent;
 import interfaces.infotypes.ProjectInfoType;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -29,8 +31,9 @@ import java.util.logging.Logger;
 
 public class ModelManager 
 {
+    public Controller cr;
     
-        public static InfoType manageInfoType(InfoType i)
+        public InfoType manageInfoType(InfoType i)
         {
             switch(i.getKind())
             {
@@ -41,7 +44,7 @@ public class ModelManager
             }
         }
         
-        public static InfoType manageProjectInfoType(ProjectInfoType i)
+        public InfoType manageProjectInfoType(ProjectInfoType i)
         {
             String path = i.getData(); //i.getPath()
             String content = i.getData();
@@ -59,6 +62,7 @@ public class ModelManager
                 //Expecting Path in Data
                 case "get":
                     data = readFromFile(path); //Object data = //When Serializable happens
+                    cr.manageEvent(new FeedbackEvent("","",data));
                     break;
                 default:
                     break;
@@ -70,13 +74,14 @@ public class ModelManager
 
         
         // Compares ghost file to filepath, looking for dirty bits
-        public static String dirtyCheck(String filepath, String ghostfile)
+        public String dirtyCheck(String filepath, String ghostfile)
         {
                 return "checked for dirty";
         }
         
-        private static Object readFromFile(String path)
+        private Object readFromFile(String path)
         {
+            System.out.println(path);
             File filename = new File(path);
             Scanner scan = null;
             String contents = "";
@@ -86,7 +91,7 @@ public class ModelManager
                 while(scan.hasNextLine())
                 {
                     contents += scan.nextLine();
-                    System.out.println(scan.nextLine());
+//                    System.out.println(scan.nextLine());
                 }
             }
             catch(FileNotFoundException e)
@@ -98,13 +103,13 @@ public class ModelManager
         }
         
         // Read a Serializable from file
-        private static Object readSerializable(String path)
+        private Object readSerializable(String path)
         {
             return null;
         }
         
         // Writes a Serializable to a file
-        private static Object writeToFile(String path, Serializable info)
+        private Object writeToFile(String path, Serializable info)
         {
             try (
               OutputStream file = new FileOutputStream(path);
@@ -119,7 +124,7 @@ public class ModelManager
             return null;
         }
         
-        private static Object writeToFile(String path, String info)
+        private Object writeToFile(String path, String info)
         {
             File filename = new File(path);
             try 
@@ -137,7 +142,7 @@ public class ModelManager
             return "File Successfully Written To";
         }
         
-        private static boolean createNewProjectStructure(String path)
+        private boolean createNewProjectStructure(String path)
         {
         path += "/root";
         String root = path;

@@ -1,5 +1,7 @@
 package mumetaapp;
 import interfaces.Event;
+import interfaces.events.OpenEvent;
+import interfaces.infotypes.ProjectInfoType;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -12,6 +14,11 @@ import interfaces.Event;
  * @author sdmiller2015
  */
 public class Controller {
+    
+    public GUI gui;
+    
+    public ModelManager mm;
+  
     private String status = "waiting";
     
     public void manageEvent(Event e){
@@ -21,16 +28,27 @@ public class Controller {
         switch(eventKind)
         {
             case "open":
-                //Check Status
-                //Update Status
-                //Send Open Event back to GUI
-                //Steve Says Open Again w/ Path
-                //Send Path to Model
-                //Model return Info
-                //Send Info to GUI
+                if(status=="opening")
+                {
+                    OpenEvent oe = (OpenEvent) e;
+                    mm.manageInfoType(new ProjectInfoType("","",oe.getDatas(),""));
+                    status = "waiting";
+                }
+                else if( status=="waiting" )
+                {
+                    status = "opening";
+                    gui.manageEvent(new OpenEvent("","",""));
+                }
+                return;
+            case "displayFile":
+                status = "feeding";
+                gui.manageEvent(e);
+                status = "waiting";
                 return;
                 
-            case "delete":
+            case "filelocationchosen":
+                mm.manageInfoType(new ProjectInfoType("","",e.getData(),""));
+                status = "waiting";
                 return;
                 
             case "save":

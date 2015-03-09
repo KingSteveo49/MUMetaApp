@@ -30,12 +30,12 @@ public class FeedbackEvent implements Event{
     
     @Override
     public String getKind(){
-        return "save";
+        return "displayFile";
     }
     
     @Override
     public String getData(){
-        return "save data";
+        return (String) data;
     }
     
 }

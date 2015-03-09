@@ -40,12 +40,12 @@ public class ProjectInfoType implements InfoType{
     //[path+content,path,path+content,path]
     @Override
     public String getData(){
-        return "H:/test";
+        return (String) data;
     }
    
     //[update,delete,set,get]
     @Override
     public String getType(){
-        return "set";
+        return "get";
     }
 }
