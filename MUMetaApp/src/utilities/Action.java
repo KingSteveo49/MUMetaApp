@@ -14,6 +14,12 @@ public class Action {
     private String kind;
     private String content;
 
+    public Action(String k, String c)
+    {
+        kind = k;
+        content = c;
+    }
+    
     public void setKind(String kind) {
         this.kind = kind;
     }

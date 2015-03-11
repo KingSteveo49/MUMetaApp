@@ -6,23 +6,28 @@
 
 package mumetaapp;
 
-import interfaces.events.*;
+
 import java.io.File;
 import javax.swing.JFileChooser;
-import utilities.Factory;
+import utilities.Action;
+
 
 /**
  *
  * @author sdmiller2015
  */
 public class GUI extends javax.swing.JFrame {
-     Controller cr = Factory.getController();
-    /**
-     * Creates new form MUMetaApp
-     */
-    public GUI() {
-        initComponents();
+    
+    private static final GUI instance = new GUI();
+     
+    //private constructor to avoid client applications to use constructor
+    private GUI(){initComponents();}
+ 
+    public static GUI getInstance(){
+        return instance;
     }
+    
+    //Controller cr = Controller.getInstance();
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -140,24 +145,24 @@ public class GUI extends javax.swing.JFrame {
 
     private void MainMenuRenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuRenameActionPerformed
         // TODO add your handling code here:
-        utilities.Event RE = new RenameEvent("User wishes to open a file", "rename", null);
+        Action RA = new Action("rename", null);
         
-        cr.manageEvent(RE);
+//       Controller.getInstance().manageEvent(RE);
     }//GEN-LAST:event_MainMenuRenameActionPerformed
 
     private void MainMenuDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuDeleteActionPerformed
         // TODO add your handling code here:
-        utilities.Event DE = new DeleteEvent("User wishes to delete a project", "delete", null);
+        Action DA = new Action("delete", null);
         
-        cr.manageEvent(DE);
+//        Controller.getInstance().manageEvent(DE);
     }//GEN-LAST:event_MainMenuDeleteActionPerformed
 
     private void MainMenuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuOpenActionPerformed
         // TODO add your handling code here:
         
-        utilities.Event OE = new OpenEvent("User wishes to open a file", "open", null);
+        Action OA = new Action("open", null);
         
-        cr.manageEvent(OE);
+        Controller.getInstance().manageAction(OA);
         
     }//GEN-LAST:event_MainMenuOpenActionPerformed
    /*
@@ -176,19 +181,19 @@ public class GUI extends javax.swing.JFrame {
  
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                utilities.Event e = new FileLocationChosenEvent("The user has selected a file location", "filelocationchosen", file.getPath());
+                Action a = new Action("fileLocationChosen", file.getPath());
                 //This is where the application would open the file.
                 FeedbackFlatererOutput.append("Opening: " + file.getName() +"." + newline);
                 FeedbackFlatererOutput.append("Loaction: " + file.getPath() +"." + newline);
-                cr.manageEvent(e);
+                Controller.getInstance().manageAction(a);
             } else {
                 FeedbackFlatererOutput.append("Open command cancelled by user." + newline);
             }
                 FeedbackFlatererOutput.setCaretPosition(FeedbackFlatererOutput.getDocument().getLength());
         
     }
-    public void displayFile(utilities.Event e){
-        MainWorkArea.append(e.getData());
+    public void displayFile(Action a){
+        MainWorkArea.append(a.getContent());
         MainWorkArea.append("\n");
         
     }
@@ -199,13 +204,13 @@ public class GUI extends javax.swing.JFrame {
     It takes in an event given by the controller and calls the correct method
     based on the type of event that was sent.
     */
-    public void manageEvent(utilities.Event e){
+    public void manageAction(Action a){
         
-        String eventKind = e.getKind();
+        String eventKind = a.getKind();
         switch(eventKind)
         {
             case "open":
-                displayFileChooser();
+//                displayFileChooser();
                 
             case "create":
                 return;
@@ -217,7 +222,12 @@ public class GUI extends javax.swing.JFrame {
                 return;
                 
             case "displayFile":
-                displayFile(e);
+                displayFile(a);
+                return;
+            
+            case "displayFileChooser":
+                displayFileChooser();
+                return;
                 
             case "delete":
                 return;

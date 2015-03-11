@@ -6,10 +6,6 @@
 
 package mumetaapp;
 
-import utilities.InfoType;
-import interfaces.events.FeedbackEvent;
-import interfaces.events.OpenEvent;
-import interfaces.infotypes.ProjectInfoType;
 import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -23,33 +19,32 @@ import java.io.Serializable;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import utilities.Project;
 
 /**
  *
  * @author sdmiller2015
  */
 
-public class ModelManager 
-{
-    public Controller cr;
+public class ModelManager {
+
+	private static final ModelManager instance = new ModelManager();
+     
+    //private constructor to avoid client applications to use constructor
+    private ModelManager(){}
+ 
+    public static ModelManager getInstance(){
+        return instance;
+    }
     
-        public InfoType manageInfoType(InfoType i)
+//    public Controller cr = Controller.getInstance();
+    
+        public void manageProject(Project p)
         {
-            switch(i.getKind())
-            {
-                case "project":
-                    return manageProjectInfoType( (ProjectInfoType) i );   
-                default:
-                    return null;
-            }
-        }
-        
-        public InfoType manageProjectInfoType(ProjectInfoType i)
-        {
-            String path = i.getData(); //i.getPath()
-            String content = i.getData();
-            Object data = "";
-            switch(i.getType())
+            String path = p.getPath(); //i.getPath()
+            String content = p.getContent();
+            String data = "";
+            switch(p.getAction())
             {
                 //Expecting Path and Content in Data
                 case "update":
@@ -57,29 +52,26 @@ public class ModelManager
                 case "delete":
                 //Expecting Path and Content in Data
                 case "set":
-                    data = writeToFile(path,content.toString());
+//                    data = writeToFile(path,content.toString());
                     break;
                 //Expecting Path in Data
                 case "get":
                     data = readFromFile(path); //Object data = //When Serializable happens
-                    cr.manageEvent(new FeedbackEvent("","",data));
+                    Controller.getInstance().manageProject(new Project(path,data,"returningProject"));
                     break;
                 default:
                     break;
             }
-            
-            return new ProjectInfoType("Return results","results",data, "set");
+            return;
         }
-        
-
-        
+           
         // Compares ghost file to filepath, looking for dirty bits
         public String dirtyCheck(String filepath, String ghostfile)
         {
                 return "checked for dirty";
         }
         
-        private Object readFromFile(String path)
+        private String readFromFile(String path)
         {
             System.out.println(path);
             File filename = new File(path);
@@ -90,7 +82,7 @@ public class ModelManager
                 scan = new Scanner(filename);
                 while(scan.hasNextLine())
                 {
-                    contents += scan.nextLine();
+                    contents += scan.nextLine()+"\n";
 //                    System.out.println(scan.nextLine());
                 }
             }

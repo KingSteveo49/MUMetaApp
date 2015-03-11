@@ -18,6 +18,13 @@ public class Project implements Serializable{
     // Set/Get
     private String action;
 
+    public Project(String p, String c, String a)
+    {
+        path = p;
+        content = c;
+        action = a;
+    }
+    
     public void setAction(String action) {
         this.action = action;
     }

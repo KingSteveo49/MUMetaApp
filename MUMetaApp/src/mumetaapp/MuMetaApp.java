@@ -6,7 +6,7 @@
 
 package mumetaapp;
 
-import utilities.Factory;
+
 
 /**
  *
@@ -43,7 +43,10 @@ public class MuMetaApp {
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                Factory.getGui().setVisible(true);
+                GUI gui = GUI.getInstance();
+                gui.setVisible(true);
+//                System.out.println(GUI.getInstance());
+                
             }
         });
     }
