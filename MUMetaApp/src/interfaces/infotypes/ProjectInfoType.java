@@ -5,7 +5,7 @@
  */
 
 package interfaces.infotypes;
-import interfaces.*;
+import utilities.InfoType;
 
 /**
  *

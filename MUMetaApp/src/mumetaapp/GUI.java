@@ -6,18 +6,17 @@
 
 package mumetaapp;
 
-import interfaces.*;
 import interfaces.events.*;
 import java.io.File;
 import javax.swing.JFileChooser;
+import utilities.Factory;
 
 /**
  *
  * @author sdmiller2015
  */
 public class GUI extends javax.swing.JFrame {
-     Controller cr = new Controller();
-//     GUI gui = new GUI();
+     Controller cr = Factory.getController();
     /**
      * Creates new form MUMetaApp
      */
@@ -141,14 +140,14 @@ public class GUI extends javax.swing.JFrame {
 
     private void MainMenuRenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuRenameActionPerformed
         // TODO add your handling code here:
-        interfaces.Event RE = new RenameEvent("User wishes to open a file", "rename", null);
+        utilities.Event RE = new RenameEvent("User wishes to open a file", "rename", null);
         
         cr.manageEvent(RE);
     }//GEN-LAST:event_MainMenuRenameActionPerformed
 
     private void MainMenuDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuDeleteActionPerformed
         // TODO add your handling code here:
-        interfaces.Event DE = new DeleteEvent("User wishes to delete a project", "delete", null);
+        utilities.Event DE = new DeleteEvent("User wishes to delete a project", "delete", null);
         
         cr.manageEvent(DE);
     }//GEN-LAST:event_MainMenuDeleteActionPerformed
@@ -156,7 +155,7 @@ public class GUI extends javax.swing.JFrame {
     private void MainMenuOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuOpenActionPerformed
         // TODO add your handling code here:
         
-        interfaces.Event OE = new OpenEvent("User wishes to open a file", "open", null);
+        utilities.Event OE = new OpenEvent("User wishes to open a file", "open", null);
         
         cr.manageEvent(OE);
         
@@ -177,7 +176,7 @@ public class GUI extends javax.swing.JFrame {
  
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fc.getSelectedFile();
-                interfaces.Event e = new FileLocationChosenEvent("The user has selected a file location", "filelocationchosen", file.getPath());
+                utilities.Event e = new FileLocationChosenEvent("The user has selected a file location", "filelocationchosen", file.getPath());
                 //This is where the application would open the file.
                 FeedbackFlatererOutput.append("Opening: " + file.getName() +"." + newline);
                 FeedbackFlatererOutput.append("Loaction: " + file.getPath() +"." + newline);
@@ -188,7 +187,7 @@ public class GUI extends javax.swing.JFrame {
                 FeedbackFlatererOutput.setCaretPosition(FeedbackFlatererOutput.getDocument().getLength());
         
     }
-    public void displayFile(interfaces.Event e){
+    public void displayFile(utilities.Event e){
         MainWorkArea.append(e.getData());
         MainWorkArea.append("\n");
         
@@ -200,7 +199,7 @@ public class GUI extends javax.swing.JFrame {
     It takes in an event given by the controller and calls the correct method
     based on the type of event that was sent.
     */
-    public void manageEvent(interfaces.Event e){
+    public void manageEvent(utilities.Event e){
         
         String eventKind = e.getKind();
         switch(eventKind)

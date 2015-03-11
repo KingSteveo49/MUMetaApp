@@ -6,6 +6,8 @@
 
 package mumetaapp;
 
+import utilities.Factory;
+
 /**
  *
  * @author bmbolen2017
@@ -37,22 +39,11 @@ public class MuMetaApp {
         //</editor-fold>
         //</editor-fold>
         
-        Controller c = new Controller();
-        final GUI g = new GUI();
-        ModelManager m = new ModelManager();
-        
-        c.mm = m;
-        c.gui = g;
-        
-        g.cr = c;
-        
-        m.cr = c;
-        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
             public void run() {
-                g.setVisible(true);
+                Factory.getGui().setVisible(true);
             }
         });
     }

@@ -5,7 +5,7 @@
  */
 
 package interfaces.events;
-import interfaces.*;
+import utilities.Event;
 
 /**
  *

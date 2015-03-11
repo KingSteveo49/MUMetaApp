@@ -6,7 +6,7 @@
 
 package mumetaapp;
 
-import interfaces.InfoType;
+import utilities.InfoType;
 import interfaces.events.FeedbackEvent;
 import interfaces.events.OpenEvent;
 import interfaces.infotypes.ProjectInfoType;

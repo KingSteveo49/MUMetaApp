@@ -6,7 +6,7 @@
 
 package interfaces.events;
 
-import interfaces.Event;
+import utilities.Event;
 
 /**
  *

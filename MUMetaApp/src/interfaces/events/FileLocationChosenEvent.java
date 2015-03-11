@@ -6,13 +6,13 @@
 
 package interfaces.events;
 
-import interfaces.Event;
+import utilities.Event;
 
 /**
  *
  * @author Stephen
  */
-public class FileLocationChosenEvent implements interfaces.Event{
+public class FileLocationChosenEvent implements utilities.Event{
     
     private final String description, kind;
     private final Object data;

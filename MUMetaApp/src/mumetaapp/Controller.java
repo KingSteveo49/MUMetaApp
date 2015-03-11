@@ -1,5 +1,5 @@
 package mumetaapp;
-import interfaces.Event;
+import utilities.Event;
 import interfaces.events.OpenEvent;
 import interfaces.infotypes.ProjectInfoType;
 
