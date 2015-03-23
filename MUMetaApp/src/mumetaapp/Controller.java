@@ -14,6 +14,8 @@ import utilities.Project;
  * @author sdmiller2015
  */
 public class Controller {
+    
+    private Project currentProject;
 
     private static final Controller instance = new Controller();
      
@@ -32,6 +34,7 @@ public class Controller {
     public void manageAction(Action a){
         
         String actionKind = a.getKind();
+        String actionContent = a.getContent();
         
         switch(actionKind)
         {
@@ -45,11 +48,13 @@ public class Controller {
                 return;
                 
             case "fileLocationChosen":
-                ModelManager.getInstance().manageProject(new Project(a.getContent(),null,"get"));
-//                status = "waiting";
+                ModelManager.getInstance().manageProject(new Project(actionContent,null,"get"));
                 return;
                 
             case "save":
+                System.out.println("DEBUGGING: CR 55");
+                save(a);
+                System.out.println("DEBUGGING: CR 57");
                 return;
                 
             default:
@@ -68,17 +73,36 @@ public class Controller {
                 case "returningProject":
                     returnedProject(p);
                     break;
+                    
+                case "saveFeedback":
+                    saveFeedback(p);
+                    break;
+                    
                 default:
                     break;
             }
             
         }
+    
+    public void saveFeedback(Project p)
+    {
+        String content = p.getContent();
+        if(content=="success")
+        { 
+            GUI.getInstance().manageAction(new Action("feedback","Save Successful! Great Job!"));
+        }
+        else
+        {
+            GUI.getInstance().manageAction(new Action("feedback","Save Failed! I am so sorry."));
+        }
+    }
      
     public void returnedProject(Project p)
     {
         if(status=="opening")
         {
-            GUI.getInstance().manageAction(new Action("displayFile",p.getContent()));
+            currentProject = p;
+            GUI.getInstance().manageAction(new Action("displayFile",currentProject.getContent()));
             status = "waiting";
         }
     }
@@ -91,7 +115,7 @@ public class Controller {
 //            ModelManager.getInstance().manageInfoType(new ProjectInfoType("","",oe.getDatas(),""));
 //            status = "waiting";
 //        }
-        /*else*/ if( status=="waiting" )
+        if( status=="waiting" )
         {
             status = "opening";
             GUI.getInstance().manageAction(new Action("displayFileChooser",null));
@@ -140,29 +164,41 @@ public class Controller {
           return null;
     }
     
-    public Action save (Action e) {
-         if (status=="waiting") {
-            
-         status="saving";
-          
-         Action se = new Action("save", null);
-          
-          return se;
+    public void save (Action a) {
+//         if (status=="waiting") {
+//            
+//         status="saving";
+//          
+//         Action se = new Action("save", null);
+//          
+//          return se;
+//        }
+//        
+//          if (status== "saving"){ 
+//             
+//          Action se = new Action("File saved passsing path to model", "save");
+//                    
+////          ModelManager.manageInfo(se);
+//                
+//         }
+//        else {
+//              Action se = new Action(null,null);
+//              
+//              return se;
+//         } 
+//          return null;
+        status = "saving";
+        System.out.println(a.getContent().trim());
+        System.out.println("&&&&&&\n"+currentProject.getContent().trim());
+        if(!currentProject.getContent().trim().equals(a.getContent().trim()))
+        {
+            ModelManager.getInstance().manageProject(new Project(currentProject.getPath(), a.getContent(),"set"));
         }
-        
-          if (status== "saving"){ 
-             
-          Action se = new Action("File saved passsing path to model", "save");
-                    
-//          ModelManager.manageInfo(se);
-                
-         }
-        else {
-              Action se = new Action(null,null);
-              
-              return se;
-         } 
-          return null;
+        else
+        {
+            GUI.getInstance().manageAction(new Action("feedback","Nothing new to save! Good job being careful!"));
+        }
+        status = "waiting";
     } 
     
     public Action delete (Action e) {

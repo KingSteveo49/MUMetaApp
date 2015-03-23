@@ -52,7 +52,7 @@ public class ModelManager {
                 case "delete":
                 //Expecting Path and Content in Data
                 case "set":
-//                    data = writeToFile(path,content.toString());
+                    writeToFile(path,content);
                     break;
                 //Expecting Path in Data
                 case "get":
@@ -101,7 +101,7 @@ public class ModelManager {
         }
         
         // Writes a Serializable to a file
-        private Object writeToFile(String path, Serializable info)
+        private void writeToFile(String path, Serializable info)
         {
             try (
               OutputStream file = new FileOutputStream(path);
@@ -113,10 +113,9 @@ public class ModelManager {
             catch(IOException ex){
               
             }
-            return null;
         }
         
-        private Object writeToFile(String path, String info)
+        private void writeToFile(String path, String info)
         {
             File filename = new File(path);
             try 
@@ -125,13 +124,13 @@ public class ModelManager {
                 outputStream.println(info);
                 outputStream.flush();
                 outputStream.close();
+                Controller.getInstance().manageProject(new Project(null,"success","saveFeedback"));
             }
             catch (FileNotFoundException e) 
             {
-                return e.getStackTrace();
+                Controller.getInstance().manageProject(new Project(null,"fail","saveFeedback"));
             }
             
-            return "File Successfully Written To";
         }
         
         private boolean createNewProjectStructure(String path)

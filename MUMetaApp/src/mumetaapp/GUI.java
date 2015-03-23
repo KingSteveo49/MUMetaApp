@@ -47,6 +47,7 @@ public class GUI extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         MainMenuOpen = new javax.swing.JMenuItem();
+        MainMenuSave = new javax.swing.JMenuItem();
         MainMenuClose = new javax.swing.JMenuItem();
         MainMenuCreate = new javax.swing.JMenuItem();
         MainMenuRename = new javax.swing.JMenuItem();
@@ -77,7 +78,20 @@ public class GUI extends javax.swing.JFrame {
                 MainMenuOpenActionPerformed(evt);
             }
         });
+        MainMenuOpen.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                MainMenuOpenKeyPressed(evt);
+            }
+        });
         jMenu1.add(MainMenuOpen);
+
+        MainMenuSave.setText("Save");
+        MainMenuSave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MainMenuSaveActionPerformed(evt);
+            }
+        });
+        jMenu1.add(MainMenuSave);
 
         MainMenuClose.setText("Close");
         jMenu1.add(MainMenuClose);
@@ -165,6 +179,17 @@ public class GUI extends javax.swing.JFrame {
         Controller.getInstance().manageAction(OA);
         
     }//GEN-LAST:event_MainMenuOpenActionPerformed
+
+    private void MainMenuOpenKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_MainMenuOpenKeyPressed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_MainMenuOpenKeyPressed
+
+    private void MainMenuSaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MainMenuSaveActionPerformed
+        // TODO add your handling code here:
+        String content  = MainWorkArea.getText();
+        Action SA = new Action("save", content);
+        Controller.getInstance().manageAction(SA);
+    }//GEN-LAST:event_MainMenuSaveActionPerformed
    /*
     The following method will display a file chooser dialog box for the user.
     
@@ -192,10 +217,13 @@ public class GUI extends javax.swing.JFrame {
                 FeedbackFlatererOutput.setCaretPosition(FeedbackFlatererOutput.getDocument().getLength());
         
     }
-    public void displayFile(Action a){
+    private void displayFile(Action a){
         MainWorkArea.append(a.getContent());
         MainWorkArea.append("\n");
         
+    }
+    private void displayFeedback(Action a){
+        FeedbackFlatererOutput.append(a.getContent()+"\n");
     }
     
     /*
@@ -235,6 +263,10 @@ public class GUI extends javax.swing.JFrame {
             case "save":
                 return;
                 
+            case "feedback":
+                displayFeedback(a);
+                return;
+                
             default:
                 return;
         }
@@ -252,6 +284,7 @@ public class GUI extends javax.swing.JFrame {
     private javax.swing.JMenuItem MainMenuDelete;
     private javax.swing.JMenuItem MainMenuOpen;
     private javax.swing.JMenuItem MainMenuRename;
+    private javax.swing.JMenuItem MainMenuSave;
     private javax.swing.JTextArea MainWorkArea;
     private javax.swing.JLabel WorkingPaneLabel;
     private javax.swing.JMenu jMenu1;
