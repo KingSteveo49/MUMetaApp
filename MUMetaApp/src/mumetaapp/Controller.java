@@ -2,6 +2,7 @@ package mumetaapp;
 
 import utilities.Action;
 import utilities.Project;
+import utilities.Tools;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -48,13 +49,11 @@ public class Controller {
                 return;
                 
             case "fileLocationChosen":
-                ModelManager.getInstance().manageProject(new Project(actionContent,null,"get"));
+                ModelManager.getInstance().manageProject(new Project(actionContent,null,"getText"));
                 return;
                 
             case "save":
-                System.out.println("DEBUGGING: CR 55");
                 save(a);
-                System.out.println("DEBUGGING: CR 57");
                 return;
                 
             default:
@@ -64,7 +63,7 @@ public class Controller {
     
      public void manageProject(Project p)
         {
-            String path = p.getPath(); //i.getPath()
+            String path = p.getPath();
             String content = p.getContent();
             String action = p.getAction();
             
@@ -109,12 +108,6 @@ public class Controller {
     
     public void open(Action a)
     {
-//        if(status=="opening")
-//        {
-//            OpenEvent oe = (OpenEvent) e;
-//            ModelManager.getInstance().manageInfoType(new ProjectInfoType("","",oe.getDatas(),""));
-//            status = "waiting";
-//        }
         if( status=="waiting" )
         {
             status = "opening";
@@ -165,34 +158,12 @@ public class Controller {
     }
     
     public void save (Action a) {
-//         if (status=="waiting") {
-//            
-//         status="saving";
-//          
-//         Action se = new Action("save", null);
-//          
-//          return se;
-//        }
-//        
-//          if (status== "saving"){ 
-//             
-//          Action se = new Action("File saved passsing path to model", "save");
-//                    
-////          ModelManager.manageInfo(se);
-//                
-//         }
-//        else {
-//              Action se = new Action(null,null);
-//              
-//              return se;
-//         } 
-//          return null;
         status = "saving";
-        System.out.println(a.getContent().trim());
-        System.out.println("&&&&&&\n"+currentProject.getContent().trim());
-        if(!currentProject.getContent().trim().equals(a.getContent().trim()))
+
+        if(!Tools.compare( currentProject.getContent(), a.getContent() ))
         {
-            ModelManager.getInstance().manageProject(new Project(currentProject.getPath(), a.getContent(),"set"));
+            ModelManager.getInstance().manageProject(new Project(currentProject.getPath(), a.getContent(),"setText"));
+            currentProject.setContent(a.getContent());
         }
         else
         {

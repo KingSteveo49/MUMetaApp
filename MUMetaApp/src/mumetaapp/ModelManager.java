@@ -8,9 +8,11 @@ package mumetaapp;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
@@ -43,7 +45,7 @@ public class ModelManager {
         {
             String path = p.getPath(); //i.getPath()
             String content = p.getContent();
-            String data = "";
+            String data;
             switch(p.getAction())
             {
                 //Expecting Path and Content in Data
@@ -51,14 +53,25 @@ public class ModelManager {
                 //Expecting Path in Data
                 case "delete":
                 //Expecting Path and Content in Data
-                case "set":
+                case "setText":
                     writeToFile(path,content);
                     break;
-                //Expecting Path in Data
-                case "get":
-                    data = readFromFile(path); //Object data = //When Serializable happens
+                    
+                // At path, writes serializable content    
+                case "setSerial":
+                    writeToFile(path,content);
+                    break;
+                    
+                // Reads string at path
+                case "getText":
+                    data = readFromFile(path);
                     Controller.getInstance().manageProject(new Project(path,data,"returningProject"));
                     break;
+                    
+                case "getSerial":
+                    readSerializable(path);
+                    //Controller.getInstance().manageProject(new Project(path,data,"returningProject"));
+                    
                 default:
                     break;
             }
@@ -71,6 +84,7 @@ public class ModelManager {
                 return "checked for dirty";
         }
         
+        // Reads string from file
         private String readFromFile(String path)
         {
             System.out.println(path);
@@ -89,7 +103,7 @@ public class ModelManager {
             catch(FileNotFoundException e)
             {
                 contents = "ERROR: Your path was crap...";
-//                e.printStackTrace();
+                System.out.println("ERROR: Trying to read text from file");
             }
             return contents;
         }
@@ -97,6 +111,17 @@ public class ModelManager {
         // Read a Serializable from file
         private Object readSerializable(String path)
         {
+            try
+            {
+                FileInputStream file = new FileInputStream(path);
+                ObjectInputStream inputStream = new ObjectInputStream(file);
+                Project p = (Project) inputStream.readObject();
+                return p;
+            }
+            catch(Exception e)
+            {
+                System.out.println("Error: Trying to read Serializable in "+path);
+            }
             return null;
         }
         
@@ -111,7 +136,7 @@ public class ModelManager {
               output.writeObject(info);
             }  
             catch(IOException ex){
-              
+              System.out.println("Error: Writing serializable to "+path);
             }
         }
         
