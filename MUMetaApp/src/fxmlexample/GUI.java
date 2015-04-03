@@ -20,10 +20,9 @@ public class GUI extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("GUIFXML.fxml"));
-        
         Scene scene = new Scene(root);
         
-        stage.setTitle("FXML Welcome");
+        stage.setTitle("MU Meta App");
         
         stage.setScene(scene);
         stage.show();
@@ -33,8 +32,8 @@ public class GUI extends Application {
      * @param args the command line arguments
      */
     
-//    public static void main(String[] args) {
-//        launch(args);
-//    }
+    public static void main(String[] args) {
+        launch(args);
+    }
     
 }

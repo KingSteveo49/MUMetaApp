@@ -8,43 +8,59 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<GridPane fx:controller="fxmlexample.GUIController" 
-    xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10">
-    <padding>
-        <Insets top="25" right="25" bottom="10" left="25"/>
-    </padding>
-    <gridLinesVisible>false</gridLinesVisible>
+<GridPane fx:controller="fxmlexample.GUIController" fx:id="rootElement"
+    xmlns:fx="http://javafx.com/fxml" alignment="TOP_LEFT" >
     
-    
-    <VBox id="vbox" prefHeight="400" prefWidth="800"
-      xmlns:fx="http://javafx.com/fxml"
-      >
-   <MenuBar fx:id="menuBar" onKeyPressed="#handleKeyInput">
-      <menus>
-         <Menu text="File">
-            <items>
-               <MenuItem text="New" onAction="#handleNewAction"/>
-               <MenuItem text="Open" onAction="#handleOpenAction"/>
-               <MenuItem text="Save" onAction="#handleSaveAction"/>
-               <MenuItem text="Save As" onAction="#handleSaveAsAction"/>
-               <SeparatorMenuItem  />
-               <MenuItem text="Exit" onAction="#handleExitAction"/>
-            </items>
-         </Menu>
-         <Menu text="Edit">
-            <items>
-               <MenuItem text="Rename Project"/>
-            </items>
-         </Menu>
-         <Menu text="Help">
-            <items>
-               <MenuItem text="Search" disable="true"/>
-               <MenuItem text="Online Manual" visible="false"/>
-            </items>
-         </Menu>
-      </menus>
-   </MenuBar>
-</VBox>
-    
-</GridPane>
+    <gridLinesVisible>true</gridLinesVisible>
 
+
+    <VBox id="vbox" xmlns:fx="http://javafx.com/fxml" GridPane.columnIndex="0" 
+      GridPane.rowIndex="0" GridPane.columnSpan="2">
+        <MenuBar fx:id="menuBar" onKeyPressed="#handleKeyInput">
+           <menus>
+              <Menu text="File">
+                 <items>
+                    <MenuItem text="New" onAction="#handleNewAction"/>
+                    <MenuItem text="Openn" onAction="#handleOpenAction"/>
+                    <MenuItem text="Save" onAction="#handleSaveAction"/>
+                    <MenuItem text="Save As" onAction="#handleSaveAsAction"/>
+                    <SeparatorMenuItem  />
+                    <MenuItem text="Exit" onAction="#handleExitAction"/>
+                 </items>
+              </Menu>
+              <Menu text="Edit">
+                 <items>
+                    <MenuItem text="Rename Project"/>
+                 </items>
+              </Menu>
+              <Menu text="Help">
+                 <items>
+                    <MenuItem text="Search" disable="true"/>
+                 </items>
+              </Menu>
+           </menus>
+        </MenuBar>
+     </VBox>
+     
+     <TextArea id="feedBack" fx:id="feedBack" editable="false" 
+               focusTraversable="false" prefHeight="205.0" prefWidth="308.0" 
+               wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+     
+    <ScrollPane GridPane.columnIndex="0" GridPane.rowIndex="1" 
+                fx:id="optionsPanel" GridPane.rowSpan="2"  
+                hbarPolicy="AS_NEEDED" prefViewportHeight="750" prefViewportWidth="200" >
+        <GridPane alignment="center" fx:id="optionsGridPane" prefHeight="750"
+                    prefWidth="200" >
+
+        </GridPane>
+    </ScrollPane>
+    
+    <ScrollPane GridPane.columnIndex="1" GridPane.rowIndex="1" 
+                fx:id="workAreaPanel" GridPane.rowSpan="1" 
+                prefViewportHeight="500" prefViewportWidth="900">
+        <GridPane alignment="center" fx:id="workAreaGridPane" hgap="10" 
+                  vgap="10" visible="true" prefHeight="500" prefWidth="900"  >
+
+        </GridPane>
+    </ScrollPane>
+</GridPane>

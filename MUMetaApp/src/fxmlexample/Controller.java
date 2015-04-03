@@ -49,6 +49,7 @@ public class Controller {
                 return;
                 
             case "fileLocationChosen":
+                System.out.println("This is the controller about to send the file location to the model");
                 ModelManager.getInstance().manageProject(new Project(actionContent,null,"getText"));
                 return;
                 
@@ -100,6 +101,7 @@ public class Controller {
     {
         if(status=="opening")
         {
+            System.out.println("This is the controller returning the project to the gui");
             currentProject = p;
             GUIController.getInstance().manageAction(new Action("displayFile",currentProject.getContent()));
             status = "waiting";

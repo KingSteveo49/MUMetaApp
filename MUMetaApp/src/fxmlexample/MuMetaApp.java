@@ -14,7 +14,7 @@ package fxmlexample;
  */
 public class MuMetaApp {
     
-    public static void main(String args[]) {
-        GUI.launch(args);
-    }
+//    public static void main(String args[]) {
+//        GUI.launch(args);
+//    }
 }
