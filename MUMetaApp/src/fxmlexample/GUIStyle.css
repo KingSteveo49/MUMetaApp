@@ -1,0 +1,8 @@
+.root{
+    background: url("background.jpg");
+}
+
+#feedBack{
+    opacity: .8;
+    background: url("background.jpg");
+}

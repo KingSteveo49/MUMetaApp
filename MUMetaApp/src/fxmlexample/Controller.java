@@ -1,5 +1,6 @@
 package fxmlexample;
 
+import java.io.IOException;
 import utilities.Action;
 import utilities.Project;
 import utilities.Tools;
@@ -32,7 +33,7 @@ public class Controller {
 //    public ModelManager mm = ModelManager.getInstance();
     private String status = "waiting";
     
-    public void manageAction(Action a){
+    public void manageAction(Action a) throws IOException{
         
         String actionKind = a.getKind();
         String actionContent = a.getContent();
@@ -62,7 +63,7 @@ public class Controller {
         }
     }
     
-     public void manageProject(Project p)
+     public void manageProject(Project p) throws IOException
         {
             String path = p.getPath();
             String content = p.getContent();
@@ -84,7 +85,7 @@ public class Controller {
             
         }
     
-    public void saveFeedback(Project p)
+    public void saveFeedback(Project p) throws IOException
     {
         String content = p.getContent();
         if(content=="success")
@@ -97,7 +98,7 @@ public class Controller {
         }
     }
      
-    public void returnedProject(Project p)
+    public void returnedProject(Project p) throws IOException
     {
         if(status=="opening")
         {
@@ -108,7 +109,7 @@ public class Controller {
         }
     }
     
-    public void open(Action a)
+    public void open(Action a) throws IOException
     {
         if( status=="waiting" )
         {
@@ -159,7 +160,7 @@ public class Controller {
           return null;
     }
     
-    public void save (Action a) {
+    public void save (Action a) throws IOException {
         status = "saving";
 
         if(!Tools.compare( currentProject.getContent(), a.getContent() ))

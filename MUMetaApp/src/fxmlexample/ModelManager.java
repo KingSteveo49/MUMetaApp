@@ -41,7 +41,7 @@ public class ModelManager {
     
 //    public Controller cr = Controller.getInstance();
     
-        public void manageProject(Project p)
+        public void manageProject(Project p) throws IOException
         {
             String path = p.getPath(); //i.getPath()
             String content = p.getContent();
@@ -140,7 +140,7 @@ public class ModelManager {
             }
         }
         
-        private void writeToFile(String path, String info)
+        private void writeToFile(String path, String info) throws IOException
         {
             File filename = new File(path);
             try 
@@ -158,7 +158,7 @@ public class ModelManager {
             
         }
         
-        private boolean createNewProjectStructure(String path)
+        private boolean createNewProjectStructure(String path) throws IOException
         {
         path += "/root";
         String root = path;
