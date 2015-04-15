@@ -25,7 +25,8 @@
               <Menu text="File">
                  <items>
                     <MenuItem text="New" onAction="#handleNewAction"/>
-                    <MenuItem text="Openn" onAction="#handleOpenAction"/>
+                    <MenuItem text="Open" onAction="#handleOpenAction"/>
+                    <MenuItem text="Test Open" onAction="#handleTestOpenAction"/>
                     <MenuItem text="Save" onAction="#handleSaveAction"/>
                     <MenuItem text="Save As" onAction="#handleSaveAsAction"/>
                     <SeparatorMenuItem  />
@@ -53,10 +54,9 @@
     <ScrollPane GridPane.columnIndex="0" GridPane.rowIndex="1" 
                 fx:id="optionsPanel" GridPane.rowSpan="2"  
                 hbarPolicy="AS_NEEDED" prefViewportHeight="750" prefViewportWidth="200" >
-        <GridPane alignment="center" fx:id="optionsGridPane" prefHeight="750"
-                    prefWidth="200" >
-
-        </GridPane>
+        <TreeView fx:id="contentTreeView" prefHeight="750" prefWidth="200" >
+            
+        </TreeView>
     </ScrollPane>
     
     <ScrollPane GridPane.columnIndex="1" GridPane.rowIndex="1" 
@@ -64,8 +64,6 @@
                 prefViewportHeight="500" prefViewportWidth="900">
         <GridPane alignment="center" fx:id="workAreaGridPane" hgap="10" 
                   vgap="10" visible="true" prefHeight="500" prefWidth="900"  >
-            <Label GridPane.columnIndex="0" GridPane.rowIndex="0"  onMouseClicked="#displayFile" >Click Me</Label>
-
         </GridPane>
     </ScrollPane>
 </GridPane>
