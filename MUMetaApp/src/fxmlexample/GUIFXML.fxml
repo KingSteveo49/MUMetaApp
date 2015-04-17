@@ -26,10 +26,9 @@
                  <items>
                     <MenuItem text="New" onAction="#handleNewAction"/>
                     <MenuItem text="Open" onAction="#handleOpenAction"/>
-                    <MenuItem text="Test Open" onAction="#handleTestOpenAction"/>
                     <MenuItem text="Save" onAction="#handleSaveAction"/>
                     <MenuItem text="Save As" onAction="#handleSaveAsAction"/>
-                    <SeparatorMenuItem  />
+                    <SeparatorMenuItem/>
                     <MenuItem text="Exit" onAction="#handleExitAction"/>
                  </items>
               </Menu>

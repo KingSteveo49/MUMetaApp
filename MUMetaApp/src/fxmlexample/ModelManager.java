@@ -22,6 +22,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import utilities.Project;
+import utilities.Tools;
 
 /**
  *
@@ -33,7 +34,7 @@ public class ModelManager {
 	private static final ModelManager instance = new ModelManager();
      
     //private constructor to avoid client applications to use constructor
-    private ModelManager(){}
+    ModelManager(){}
  
     public static ModelManager getInstance(){
         return instance;
@@ -41,7 +42,7 @@ public class ModelManager {
     
 //    public Controller cr = Controller.getInstance();
     
-        public void manageProject(Project p) throws IOException
+        public void manageProject(Project p)
         {
             String path = p.getPath(); //i.getPath()
             String content = p.getContent();
@@ -65,7 +66,11 @@ public class ModelManager {
                 // Reads string at path
                 case "getText":
                     data = readFromFile(path);
-                    Controller.getInstance().manageProject(new Project(path,data,"returningProject"));
+                    factory.getController().manageProject(new Project(path,data,"returningProject"));
+                    break;
+                case "getXML":
+                    System.out.println("Model retrieving file from: "+path);
+                    factory.getController().manageProject(new Project(path,null,"returningProject", Tools.getDoc(path)));
                     break;
                     
                 case "getSerial":
@@ -140,7 +145,7 @@ public class ModelManager {
             }
         }
         
-        private void writeToFile(String path, String info) throws IOException
+        private void writeToFile(String path, String info)
         {
             File filename = new File(path);
             try 
@@ -149,16 +154,16 @@ public class ModelManager {
                 outputStream.println(info);
                 outputStream.flush();
                 outputStream.close();
-                Controller.getInstance().manageProject(new Project(null,"success","saveFeedback"));
+                factory.getController().manageProject(new Project(null,"success","saveFeedback"));
             }
             catch (FileNotFoundException e) 
             {
-                Controller.getInstance().manageProject(new Project(null,"fail","saveFeedback"));
+                factory.getController().manageProject(new Project(null,"fail","saveFeedback"));
             }
             
         }
         
-        private boolean createNewProjectStructure(String path) throws IOException
+        private boolean createNewProjectStructure(String path)
         {
         path += "/root";
         String root = path;

@@ -22,18 +22,18 @@ public class Controller {
     private static final Controller instance = new Controller();
      
     //private constructor to avoid client applications to use constructor
-    private Controller(){}
+    Controller(){}
  
     public static Controller getInstance(){
         return instance;
     }
     
-//    public GUI gui = GUI.getInstance();
+//    public GUI gui = factory.getGUI();
     
-//    public ModelManager mm = ModelManager.getInstance();
+//    public ModelManager mm = factory.getModelManager();
     private String status = "waiting";
     
-    public void manageAction(Action a) throws IOException{
+    public void manageAction(Action a){
         
         String actionKind = a.getKind();
         String actionContent = a.getContent();
@@ -45,13 +45,13 @@ public class Controller {
                 return;
             case "displayFile":
                 status = "feeding";
-//                GUI.getInstance().manageEvent(e);
+//                factory.getGUI().manageEvent(e);
                 status = "waiting";
                 return;
                 
             case "fileLocationChosen":
                 System.out.println("This is the controller about to send the file location to the model");
-                ModelManager.getInstance().manageProject(new Project(actionContent,null,"getText"));
+                factory.getModelManager().manageProject(new Project(actionContent,null,"getXML"));
                 return;
                 
             case "save":
@@ -63,8 +63,7 @@ public class Controller {
         }
     }
     
-     public void manageProject(Project p) throws IOException
-        {
+     public void manageProject(Project p){
             String path = p.getPath();
             String content = p.getContent();
             String action = p.getAction();
@@ -85,36 +84,33 @@ public class Controller {
             
         }
     
-    public void saveFeedback(Project p) throws IOException
-    {
+    public void saveFeedback(Project p){
         String content = p.getContent();
         if(content=="success")
         { 
-            GUIController.getInstance().manageAction(new Action("feedback","Save Successful! Great Job!"));
+            factory.getGUI().manageAction(new Action("feedback","Save Successful! Great Job!"));
         }
         else
         {
-            GUIController.getInstance().manageAction(new Action("feedback","Save Failed! I am so sorry."));
+            factory.getGUI().manageAction(new Action("feedback","Save Failed! I am so sorry."));
         }
     }
      
-    public void returnedProject(Project p) throws IOException
-    {
-        if(status=="opening")
+    public void returnedProject(Project p){
+        if("opening".equals(status))
         {
             System.out.println("This is the controller returning the project to the gui");
             currentProject = p;
-            GUIController.getInstance().manageAction(new Action("displayFile",currentProject.getContent()));
+            factory.getGUI().manageAction(new Action("displayFile",p.getContent(),p.getDoc()));
             status = "waiting";
         }
     }
     
-    public void open(Action a) throws IOException
-    {
-        if( status=="waiting" )
+    public void open(Action a){
+        if( "waiting".equals(status) )
         {
             status = "opening";
-            GUIController.getInstance().manageAction(new Action("displayFileChooser",null));
+            factory.getGUI().manageAction(new Action("displayFileChooser",null));
         }
     }
       
@@ -160,17 +156,17 @@ public class Controller {
           return null;
     }
     
-    public void save (Action a) throws IOException {
+    public void save (Action a){
         status = "saving";
 
         if(!Tools.compare( currentProject.getContent(), a.getContent() ))
         {
-            ModelManager.getInstance().manageProject(new Project(currentProject.getPath(), a.getContent(),"setText"));
+            factory.getModelManager().manageProject(new Project(currentProject.getPath(), a.getContent(),"setText"));
             currentProject.setContent(a.getContent());
         }
         else
         {
-            GUIController.getInstance().manageAction(new Action("feedback","Nothing new to save! Good job being careful!"));
+            factory.getGUI().manageAction(new Action("feedback","Nothing new to save! Good job being careful!"));
         }
         status = "waiting";
     } 
