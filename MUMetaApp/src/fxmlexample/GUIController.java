@@ -1,6 +1,7 @@
 package fxmlexample;
  
 import java.io.File;
+import java.io.IOException;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -13,7 +14,6 @@ import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -22,16 +22,11 @@ import utilities.Action;
  
 public class GUIController {
     
-//    private static final GUIController instance = new GUIController();
-// 
-//    public static GUIController getInstance(){
-//        return instance;
-//    }
-    
     @FXML TextArea feedBack;
     @FXML TreeView contentTreeView;
     @FXML GridPane workAreaGridPane;
     @FXML GridPane rootElement;
+    @FXML Document currentDoc;
     
     
     @FXML
@@ -72,7 +67,6 @@ public class GUIController {
     @FXML
     protected void displayFileChooser(){
         try{
-            //System.out.println(rootElement.getScene());
 
             final FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Project");
@@ -82,7 +76,7 @@ public class GUIController {
             System.out.println(file.getPath());
             factory.getController().manageAction(new Action("fileLocationChosen", file.getCanonicalPath()));
             
-        }catch(Exception e){
+        }catch(IOException e){
             System.out.println("There was a problem while trying to display the file chooser: "+e.toString());
         }
 }
@@ -91,15 +85,7 @@ public class GUIController {
     private void displayFile(Action a){
        
         System.out.println("The GUI is now attempting to display the file");
-        //--This is test code used to initialize a fake xml document that will
-        //--be used to resemble the one that would be passed in
-//            DOMParser parser = new DOMParser();
-//            parser.parse("H:\\books.xml");
-//            Document dom = parser.getDocument();
-        //----------------------------------------------------------------------
-        //--Needs to switch from being hardcoded to "Categories"
-//        TreeItem rootItem = new TreeItem("Categories");
-//        rootItem.setExpanded(true);
+        currentDoc = a.getDoc();
         System.out.println(contentTreeView.getId());
         
         contentTreeView.setRoot(new TreeItem("Categories"));
@@ -117,13 +103,6 @@ public class GUIController {
 
         walkNode(a.getDoc().getDocumentElement(), contentTreeView.getRoot());
             
-    }
-    
-    private void walkDOM(Document dom) {
-        Element n = dom.createElement("Thinker");
-        n.setAttribute("id", "unique");
-        System.out.println(n.getAttribute("id"));
-        
     }
     
     private void walkNode(Node theNode, TreeItem rootItem) {
