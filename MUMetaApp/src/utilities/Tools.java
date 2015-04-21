@@ -31,7 +31,7 @@ import javax.xml.transform.stream.StreamResult;
  */
 public class Tools {
     
-    public static final Path defaultAppDir = FileSystems.getDefault().getPath("DefaultApp", (String) null);
+    //public static final Path defaultAppDir = FileSystems.getDefault().getPath("DefaultApp", (String) null);
     
     public static boolean compare(String s1,String s2)
     {
@@ -84,13 +84,13 @@ public class Tools {
     }
   }
     
-    public static void exportApp(Path targetLocation)
-    {
-        try{
-        Files.copy(defaultAppDir,targetLocation);
-        // TODO: Also throw the DOM xml stuff into the new location
-        }catch(Exception e){
-            System.out.println(e.getMessage());
-        }
-    }
+//    public static void exportApp(Path targetLocation)
+//    {
+//        try{
+//        Files.copy(defaultAppDir,targetLocation);
+//        // TODO: Also throw the DOM xml stuff into the new location
+//        }catch(Exception e){
+//            System.out.println(e.getMessage());
+//        }
+//    }
 }

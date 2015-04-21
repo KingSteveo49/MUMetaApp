@@ -7,26 +7,29 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import utilities.Action;
  
 public class GUIController {
     
-    @FXML TextArea feedBack;
-    @FXML TreeView contentTreeView;
-    @FXML GridPane workAreaGridPane;
-    @FXML GridPane rootElement;
+    @FXML TextArea feedBack, selectedNameTextArea, selectedDescTextArea;
+    @FXML GridPane workAreaGridPane, rootElement;
+    //@FXML GridPane rootElement;
     @FXML Document currentDoc;
+    @FXML Label mainTitle, selectedNameLabel, selectedDescLabel;
+    @FXML TreeView contentTreeView;
+    @FXML TreeItem previouslySelectedTreeItem;
     
     
     @FXML
@@ -85,24 +88,51 @@ public class GUIController {
     private void displayFile(Action a){
        
         System.out.println("The GUI is now attempting to display the file");
+        
         currentDoc = a.getDoc();
         System.out.println(contentTreeView.getId());
         
-        contentTreeView.setRoot(new TreeItem("Categories"));
+        contentTreeView.setRoot(new TreeItem("My App"));
         
         contentTreeView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<TreeItem<String>>() {
 
             @Override
             public void changed(ObservableValue<? extends TreeItem<String>> observable,TreeItem<String> old_val, TreeItem<String> new_val) {
                 TreeItem<String> selectedItem = new_val;
-                displayFeedback("Selected Text : " + selectedItem.getValue()+"\n");
+                //displayFeedback("Selected Text : " + selectedItem.getValue()+"\n");
+                mainTitle.setText(selectedItem.getValue());
+                
+                
+                
+                if(!selectedNameLabel.isVisible()){
+                    toggleItemNameDescVisable();
+                }
                 // do what ever you want
+                selectedNameTextArea.setText(selectedItem.getValue());
+                
             }
 
         });
 
         walkNode(a.getDoc().getDocumentElement(), contentTreeView.getRoot());
-            
+        
+        mainTitle.setText(contentTreeView.getRoot().getValue().toString());
+        mainTitle.setFont(new Font("Cambria", 32));
+        mainTitle.setVisible(true);
+    }
+    
+    private void toggleItemNameDescVisable(){
+        if(selectedNameLabel.isVisible()){
+            selectedNameLabel.setVisible(false);
+            selectedNameTextArea.setVisible(false);
+            selectedDescLabel.setVisible(false);
+            selectedDescTextArea.setVisible(false);
+        }else{
+            selectedNameLabel.setVisible(true);
+            selectedNameTextArea.setVisible(true);
+            selectedDescLabel.setVisible(true);
+            selectedDescTextArea.setVisible(true);
+        }
     }
     
     private void walkNode(Node theNode, TreeItem rootItem) {
