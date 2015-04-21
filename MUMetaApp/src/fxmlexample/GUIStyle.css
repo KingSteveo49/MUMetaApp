@@ -1,8 +1,19 @@
 .root{
     background: url("background.jpg");
 }
-
-#feedBack{
-    opacity: .8;
+#selectedNameTextArea{
+    -fx-font-size: 15px;
 }
-
+#selectedNameLabel{
+    -fx-font-size: 24px;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+#selectedDescTextArea{
+    -fx-font-size: 15px;
+}
+#selectedDescLabel{
+    -fx-font-size: 24px;
+    -fx-text-fill: #333333;
+    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}

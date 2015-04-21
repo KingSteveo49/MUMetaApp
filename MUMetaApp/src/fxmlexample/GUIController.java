@@ -7,8 +7,9 @@ import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -16,6 +17,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -30,6 +32,8 @@ public class GUIController {
     @FXML Label mainTitle, selectedNameLabel, selectedDescLabel;
     @FXML TreeView contentTreeView;
     @FXML TreeItem previouslySelectedTreeItem;
+    @FXML Scene scene;
+    @FXML MenuBar menuBar;
     
     
     @FXML
@@ -162,6 +166,31 @@ public class GUIController {
     
   }
 
+    public void setScene(Scene scene) { 
+        this.scene = scene; 
+    }
+    @FXML
+    public void resizeElements(){
+        double w = scene.getWidth();
+        double h = scene.getHeight();
+        Window window = scene.getWindow();
+        
+        if(w<1117){
+            window.setWidth(1117);
+        }
+        if(h<790){
+            window.setHeight(790);
+        }
+        
+        w = scene.getWidth();
+        h = scene.getHeight();
+        System.out.println("test:" + feedBack.getHeight());
+        
+        
+       
+        
+    }
+    
     private int row = 0;
     
     @FXML
@@ -176,7 +205,6 @@ public class GUIController {
                 testyTest();
             }
         });
-        //optionsGridPane.add(l, 0, row);
         row++;
     }
     
