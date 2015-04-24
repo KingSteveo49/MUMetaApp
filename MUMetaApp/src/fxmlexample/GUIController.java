@@ -18,6 +18,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathConstants;
+import javax.xml.xpath.XPathFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -27,7 +30,6 @@ public class GUIController {
     
     @FXML TextArea feedBack, selectedNameTextArea, selectedDescTextArea;
     @FXML GridPane workAreaGridPane, rootElement;
-    //@FXML GridPane rootElement;
     @FXML Document currentDoc;
     @FXML Label mainTitle, selectedNameLabel, selectedDescLabel;
     @FXML TreeView contentTreeView;
@@ -55,7 +57,7 @@ public class GUIController {
     }
     @FXML
     protected void handleSaveAction(ActionEvent event){
-        displayFeedback(new Action(null, "User wants to save"));
+        factory.getController().manageAction(new Action("save", null, currentDoc));
     }
     @FXML
     protected void handleSaveAsAction(ActionEvent event){
@@ -103,17 +105,42 @@ public class GUIController {
             @Override
             public void changed(ObservableValue<? extends TreeItem<String>> observable,TreeItem<String> old_val, TreeItem<String> new_val) {
                 TreeItem<String> selectedItem = new_val;
-                //displayFeedback("Selected Text : " + selectedItem.getValue()+"\n");
+                if(previouslySelectedTreeItem==null){
+                    previouslySelectedTreeItem = selectedItem;
+                }
+                try{
+                if(!"".equals(selectedNameTextArea.getText())){
+                    String newTreeValue = selectedNameTextArea.getText();
+                    String oldtreeValue = previouslySelectedTreeItem.getValue().toString();
+                    if(!previouslySelectedTreeItem.getValue().equals(newTreeValue)){
+//                        previouslySelectedTreeItem.set
+                        previouslySelectedTreeItem.setValue(newTreeValue);
+                        displayFeedback("Changed: "+oldtreeValue+" to: "+ newTreeValue+"\n");
+                    }else{
+                        displayFeedback("Nothing to update \n");
+                    }
+                    
+                    
+                    
+                    
+                    XPath xpath = XPathFactory.newInstance().newXPath();
+                    Node node = (Node) xpath.evaluate("//*[@id='header']", currentDoc, XPathConstants.NODE);
+                } else {
+                    displayFeedback("did nothing\n");
+                }
+                }catch(Exception e){
+                    System.out.println(e.getMessage());
+                    
+                }
+                
                 mainTitle.setText(selectedItem.getValue());
-                
-                
                 
                 if(!selectedNameLabel.isVisible()){
                     toggleItemNameDescVisable();
                 }
                 // do what ever you want
                 selectedNameTextArea.setText(selectedItem.getValue());
-                
+                previouslySelectedTreeItem = selectedItem;
             }
 
         });
@@ -175,12 +202,13 @@ public class GUIController {
         double h = scene.getHeight();
         Window window = scene.getWindow();
         
-        if(w<1117){
-            window.setWidth(1117);
-        }
-        if(h<790){
-            window.setHeight(790);
-        }
+//        if(w<1117){
+//            window.setWidth(1117);
+//        }
+//        if(h<752){
+//            window.setHeight(790);
+//        }
+        
         
         w = scene.getWidth();
         h = scene.getHeight();

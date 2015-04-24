@@ -19,8 +19,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import utilities.Project;
 import utilities.Tools;
 
@@ -61,6 +59,11 @@ public class ModelManager {
                 // At path, writes serializable content    
                 case "setSerial":
                     writeToFile(path,content);
+                    break;
+                    
+                case "setXML":
+                    Tools.saveDoc(p.getDoc(), path);
+                    factory.getController().manageProject(new Project(null, "success", "saveFeedback"));
                     break;
                     
                 // Reads string at path

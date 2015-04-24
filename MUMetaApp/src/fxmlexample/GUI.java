@@ -28,6 +28,7 @@ public class GUI extends Application {
         
         stage.setTitle("MU Meta App");
         
+        
         stage.setScene(scene);
         scene.getStylesheets().add(GUI.class.getResource("GUIStyle.css").toExternalForm());
         

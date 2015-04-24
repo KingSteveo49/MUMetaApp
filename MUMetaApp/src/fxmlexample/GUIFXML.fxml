@@ -9,18 +9,18 @@
 <?import javafx.scene.layout.*?>
 
 <GridPane  fx:controller="fxmlexample.GUIController" fx:id="rootElement"
-    xmlns:fx="http://javafx.com/fxml" alignment="TOP_LEFT" minWidth="1100" minHeight="760" >
+    xmlns:fx="http://javafx.com/fxml" alignment="TOP_LEFT" scaleShape="true" 
+    GridPane.fillHeight="true" GridPane.fillWidth="true">
     
     <stylesheets>
         <URL value="@GUIStyle.css" />
     </stylesheets>
     
-    <gridLinesVisible>false</gridLinesVisible>
 
 
     <VBox id="menuBarContainer" xmlns:fx="http://javafx.com/fxml" GridPane.columnIndex="0" 
-      GridPane.rowIndex="0" GridPane.columnSpan="2">
-        <MenuBar fx:id="menuBar" id="menuBar" onKeyPressed="#handleKeyInput">
+      GridPane.rowIndex="0" GridPane.columnSpan="2" scaleShape="true" fillWidth="true" >
+        <MenuBar fx:id="menuBar" id="menuBar" onKeyPressed="#handleKeyInput" scaleShape="true" >
            <menus>
               <Menu text="File">
                  <items>
@@ -47,14 +47,15 @@
      </VBox>
      
      <TextArea id="feedBack" fx:id="feedBack" editable="false" 
-               focusTraversable="false" prefHeight="205.0" prefWidth="308.0" 
+               focusTraversable="false"  
                wrapText="true" GridPane.columnIndex="1" GridPane.rowIndex="2"
-                />
+                scaleShape="true" GridPane.fillWidth="true" GridPane.fillHeight="true"  />
      
     <ScrollPane GridPane.columnIndex="0" GridPane.rowIndex="1" 
                 fx:id="optionsPanel" id="optionsPanel" GridPane.rowSpan="2"  
                 hbarPolicy="AS_NEEDED" fitToWidth="true" fitToHeight="true" 
-                prefViewportHeight="500" prefViewportWidth="200" >
+                prefViewportHeight="750" prefViewportWidth="200" scaleShape="false" 
+                GridPane.fillWidth="true" GridPane.fillHeight="true">
         <TreeView fx:id="contentTreeView" prefHeight="750" prefWidth="200" minHeight="750"
                     minWidth="200" >
             
@@ -63,29 +64,32 @@
     
     <ScrollPane GridPane.columnIndex="1" GridPane.rowIndex="1" 
                 fx:id="workAreaPanel" id="workAreaPanel" GridPane.rowSpan="1" 
-                fitToHeight="true" fitToWidth="true"  >
+                fitToHeight="true" fitToWidth="true"  scaleShape="true" 
+                GridPane.fillWidth="true" GridPane.fillHeight="true">
         <GridPane alignment="TOP_CENTER"  fx:id="workAreaGridPane" id="workAreaGridPane" hgap="10" 
-                  vgap="10" visible="true" prefHeight="500" prefWidth="900" minHeight="500"
-                    minWidth="900">
+                  vgap="10" visible="true" scaleShape="true">
             
             <VBox GridPane.columnIndex="0" GridPane.rowIndex="0" 
-                  alignment="CENTER" fillWidth="true" GridPane.columnSpan="2">
+                  alignment="CENTER" fillWidth="true" GridPane.columnSpan="2" scaleShape="true" 
+                    GridPane.fillWidth="true" GridPane.fillHeight="true">
                 <Label fx:id="mainTitle" id="mainTitle" wrapText="true" alignment="CENTER"/>
             </VBox>
             
-            <VBox GridPane.columnIndex="0" GridPane.rowIndex="2">
+            <VBox GridPane.columnIndex="0" GridPane.rowIndex="2" scaleShape="true" >
                 <Label fx:id="selectedNameLabel" id="selectedNameLabel" text="Name" visible="false" 
                         alignment="TOP_LEFT"/>
             </VBox>
             <TextArea fx:id="selectedNameTextArea" id="selectedNameTextArea" GridPane.columnIndex="1" 
-                GridPane.rowIndex="2" visible="false" prefHeight="15" />
+                GridPane.rowIndex="2" visible="false" prefHeight="15" scaleShape="true" 
+                GridPane.fillWidth="true" GridPane.fillHeight="true"/>
             
-            <VBox GridPane.columnIndex="0" GridPane.rowIndex="3">
+            <VBox GridPane.columnIndex="0" GridPane.rowIndex="3" scaleShape="true" >
                 <Label fx:id="selectedDescLabel" id="selectedDescLabel" text="Description" 
                        visible="false" alignment="TOP_LEFT" />
             </VBox>
             <TextArea fx:id="selectedDescTextArea" id="selectedDescTextArea" GridPane.columnIndex="1" 
-                GridPane.rowIndex="3" visible="false" />
+                GridPane.rowIndex="3" visible="false" scaleShape="true" 
+                GridPane.fillWidth="true" GridPane.fillHeight="true"/>
             
         </GridPane>
     </ScrollPane>

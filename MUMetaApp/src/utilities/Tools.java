@@ -9,13 +9,10 @@ package utilities;
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 //Export Test
-import java.nio.file.Files;
-import java.nio.file.Path;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -46,6 +43,11 @@ public class Tools {
     public static boolean compare(Action a1, Action a2)
     { //ToDo
         return true;
+    }
+    
+    public static boolean compare(Document d1, Document d2)
+    {//ToDo
+        return false;
     }
     
     public static Document getDoc(String path){
@@ -80,7 +82,7 @@ public class Tools {
     }
     catch(ParserConfigurationException | TransformerException exc)
     {
-      System.out.println(exc);
+      System.out.println("error");
     }
   }
     

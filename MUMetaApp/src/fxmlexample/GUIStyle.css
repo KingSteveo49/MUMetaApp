@@ -1,5 +1,13 @@
 .root{
-    background: url("background.jpg");
+    -fx-background-image: url("background.jpg");
+    -fx-scale-x: 1;
+}
+#rootElement{
+    -fx-scale-x: 1;
+    -fx-scale-shape: true;
+}
+.contextMenu{
+    
 }
 #selectedNameTextArea{
     -fx-font-size: 15px;
@@ -16,4 +24,16 @@
     -fx-font-size: 24px;
     -fx-text-fill: #333333;
     -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+}
+#feedBack{
+    -fx-opacity: .55;
+    -fx-scale-x: 1;
+}
+#optionsPanel{
+    -fx-opacity: .55;
+    -fx-scale-x: 1;
+}
+#workAreaPanel{
+    -fx-opacity: .55;
+    -fx-scale-x: 1;
 }

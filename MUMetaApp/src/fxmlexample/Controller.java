@@ -86,7 +86,7 @@ public class Controller {
     
     public void saveFeedback(Project p){
         String content = p.getContent();
-        if(content=="success")
+        if("success".equals(content))
         { 
             factory.getGUI().manageAction(new Action("feedback","Save Successful! Great Job!"));
         }
@@ -157,16 +157,19 @@ public class Controller {
     }
     
     public void save (Action a){
-        status = "saving";
-
-        if(!Tools.compare( currentProject.getContent(), a.getContent() ))
+        if(status.equals("waiting")){
+            status = "saving";
+        }
+        
+        if(currentProject==null || Tools.compare( currentProject.getDoc(), a.getDoc()))
         {
-            factory.getModelManager().manageProject(new Project(currentProject.getPath(), a.getContent(),"setText"));
-            currentProject.setContent(a.getContent());
+            factory.getGUI().manageAction(new Action("feedback","Nothing new to save! Good job being careful!"));
         }
         else
         {
-            factory.getGUI().manageAction(new Action("feedback","Nothing new to save! Good job being careful!"));
+            factory.getModelManager().manageProject(new Project(currentProject.getPath(), null,"setXML", a.getDoc()));
+            currentProject.setContent(a.getContent());
+            
         }
         status = "waiting";
     } 
