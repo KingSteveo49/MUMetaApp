@@ -9,7 +9,9 @@ package fxmlexample;
 
 
 /**
- *
+ * [Deprecated]
+ * This class starts Meta-App
+ * 
  * @author bmbolen2017
  */
 public class MuMetaApp {

@@ -23,151 +23,204 @@ import utilities.Project;
 import utilities.Tools;
 
 /**
- *
+ * The ModelManager handles all of the data that Meta-App needs to store.
+ * It does so, independent of the GUI. You interface with it through
+ * Projects.
+ * 
  * @author sdmiller2015
  */
 
 public class ModelManager {
 
-	private static final ModelManager instance = new ModelManager();
+    /**
+     * [Deprecated]
+     */
+    private static final ModelManager instance = new ModelManager();
      
-    //private constructor to avoid client applications to use constructor
+    /**
+     * [Deprecated]
+     * private constructor to avoid client applications to use constructor
+     */
     ModelManager(){}
  
+    /**
+     * [Deprecated]
+     * Gets the instance of the ModelManager, so that duplicates don't
+     * pop up.
+     * 
+     * @return 
+     */
     public static ModelManager getInstance(){
         return instance;
     }
     
-//    public Controller cr = Controller.getInstance();
-    
-        public void manageProject(Project p)
+    /**
+     * This handles all incoming projects or passes them to a function
+     * that can handle them.
+     * 
+     * @param p Incoming project for the model to handle
+     */
+    public void manageProject(Project p)
+    {
+        String path = p.getPath(); //i.getPath()
+        String content = p.getContent();
+        String data;
+        switch(p.getAction())
         {
-            String path = p.getPath(); //i.getPath()
-            String content = p.getContent();
-            String data;
-            switch(p.getAction())
-            {
-                //Expecting Path and Content in Data
-                case "update":
-                //Expecting Path in Data
-                case "delete":
-                //Expecting Path and Content in Data
-                case "setText":
-                    writeToFile(path,content);
-                    break;
-                    
-                // At path, writes serializable content    
-                case "setSerial":
-                    writeToFile(path,content);
-                    break;
-                    
-                case "setXML":
-                    Tools.saveDoc(p.getDoc(), path);
-                    factory.getController().manageProject(new Project(null, "success", "saveFeedback"));
-                    break;
-                    
-                // Reads string at path
-                case "getText":
-                    data = readFromFile(path);
-                    factory.getController().manageProject(new Project(path,data,"returningProject"));
-                    break;
-                case "getXML":
-                    System.out.println("Model retrieving file from: "+path);
-                    factory.getController().manageProject(new Project(path,null,"returningProject", Tools.getDoc(path)));
-                    break;
-                    
-                case "getSerial":
-                    readSerializable(path);
-                    //Controller.getInstance().manageProject(new Project(path,data,"returningProject"));
-                    
-                default:
-                    break;
-            }
-            return;
+            //Expecting Path and Content in Data
+            case "update":
+            //Expecting Path in Data
+            case "delete":
+            //Expecting Path and Content in Data
+            case "setText":
+                writeToFile(path,content);
+                break;
+
+            // At path, writes serializable content    
+            case "setSerial":
+                writeToFile(path,content);
+                break;
+
+            case "setXML":
+                Tools.saveDoc(p.getDoc(), path);
+                factory.getController().manageProject(new Project(null, "success", "saveFeedback"));
+                break;
+
+            // Reads string at path
+            case "getText":
+                data = readFromFile(path);
+                factory.getController().manageProject(new Project(path,data,"returningProject"));
+                break;
+            case "getXML":
+                System.out.println("Model retrieving file from: "+path);
+                factory.getController().manageProject(new Project(path,null,"returningProject", Tools.getDoc(path)));
+                break;
+
+            case "getSerial":
+                readSerializable(path);
+                //Controller.getInstance().manageProject(new Project(path,data,"returningProject"));
+
+            default:
+                break;
         }
-           
-        // Compares ghost file to filepath, looking for dirty bits
-        public String dirtyCheck(String filepath, String ghostfile)
+        return;
+    }
+
+    /**
+     * [Deprecated]
+     * Compares ghostfile to filepath, looking for dirty bits
+     * @param filepath The original file
+     * @param ghostfile The changed file
+     * @return 
+     */
+    public String dirtyCheck(String filepath, String ghostfile)
+    {
+            return "checked for dirty";
+    }
+
+    /**
+     * Reads string from file
+     * 
+     * @param path Path to file
+     * @return 
+     */
+    private String readFromFile(String path)
+    {
+        System.out.println(path);
+        File filename = new File(path);
+        Scanner scan = null;
+        String contents = "";
+        try 
         {
-                return "checked for dirty";
-        }
-        
-        // Reads string from file
-        private String readFromFile(String path)
-        {
-            System.out.println(path);
-            File filename = new File(path);
-            Scanner scan = null;
-            String contents = "";
-            try 
+            scan = new Scanner(filename);
+            while(scan.hasNextLine())
             {
-                scan = new Scanner(filename);
-                while(scan.hasNextLine())
-                {
-                    contents += scan.nextLine()+"\n";
+                contents += scan.nextLine()+"\n";
 //                    System.out.println(scan.nextLine());
-                }
-            }
-            catch(FileNotFoundException e)
-            {
-                contents = "ERROR: Your path was crap...";
-                System.out.println("ERROR: Trying to read text from file");
-            }
-            return contents;
-        }
-        
-        // Read a Serializable from file
-        private Object readSerializable(String path)
-        {
-            try
-            {
-                FileInputStream file = new FileInputStream(path);
-                ObjectInputStream inputStream = new ObjectInputStream(file);
-                Project p = (Project) inputStream.readObject();
-                return p;
-            }
-            catch(Exception e)
-            {
-                System.out.println("Error: Trying to read Serializable in "+path);
-            }
-            return null;
-        }
-        
-        // Writes a Serializable to a file
-        private void writeToFile(String path, Serializable info)
-        {
-            try (
-              OutputStream file = new FileOutputStream(path);
-              OutputStream buffer = new BufferedOutputStream(file);
-              ObjectOutput output = new ObjectOutputStream(buffer);
-            ){
-              output.writeObject(info);
-            }  
-            catch(IOException ex){
-              System.out.println("Error: Writing serializable to "+path);
             }
         }
-        
-        private void writeToFile(String path, String info)
+        catch(FileNotFoundException e)
         {
-            File filename = new File(path);
-            try 
-            {
-                PrintWriter outputStream = new PrintWriter(filename);
-                outputStream.println(info);
-                outputStream.flush();
-                outputStream.close();
-                factory.getController().manageProject(new Project(null,"success","saveFeedback"));
-            }
-            catch (FileNotFoundException e) 
-            {
-                factory.getController().manageProject(new Project(null,"fail","saveFeedback"));
-            }
-            
+            contents = "ERROR: Your path was crap...";
+            System.out.println("ERROR: Trying to read text from file");
         }
+        return contents;
+    }
         
-        private boolean createNewProjectStructure(String path)
+    /**
+     * Read a Serializable from file
+     *  
+     * @param path Path to serialized filed
+     * @return 
+     */
+    private Object readSerializable(String path)
+    {
+        try
         {
+            FileInputStream file = new FileInputStream(path);
+            ObjectInputStream inputStream = new ObjectInputStream(file);
+            Project p = (Project) inputStream.readObject();
+            return p;
+        }
+        catch(Exception e)
+        {
+            System.out.println("Error: Trying to read Serializable in "+path);
+        }
+        return null;
+    }
+
+    /**
+     * Writes a Serializable to a file
+     * 
+     * @param path Path to where the Serializable should go
+     * @param info A Serializable Object to write to path
+     */
+    private void writeToFile(String path, Serializable info)
+    {
+        try (
+          OutputStream file = new FileOutputStream(path);
+          OutputStream buffer = new BufferedOutputStream(file);
+          ObjectOutput output = new ObjectOutputStream(buffer);
+        ){
+          output.writeObject(info);
+        }  
+        catch(IOException ex){
+          System.out.println("Error: Writing serializable to "+path);
+        }
+    }
+
+    /**
+     * Write string to file
+     * 
+     * @param path Path to resulting file
+     * @param info String to write
+     */
+    private void writeToFile(String path, String info)
+    {
+        File filename = new File(path);
+        try 
+        {
+            PrintWriter outputStream = new PrintWriter(filename);
+            outputStream.println(info);
+            outputStream.flush();
+            outputStream.close();
+            factory.getController().manageProject(new Project(null,"success","saveFeedback"));
+        }
+        catch (FileNotFoundException e) 
+        {
+            factory.getController().manageProject(new Project(null,"fail","saveFeedback"));
+        }
+
+    }
+        
+    /**
+     * Makes a new app structure at desired location
+     * 
+     * @param path Path to resulting folder structure
+     * @return 
+     */
+    private boolean createNewProjectStructure(String path)
+    {
         path += "/root";
         String root = path;
         String src = path+"/src";

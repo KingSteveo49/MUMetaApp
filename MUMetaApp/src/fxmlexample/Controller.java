@@ -5,34 +5,44 @@ import utilities.Action;
 import utilities.Project;
 import utilities.Tools;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /**
- *
+ * The Controller is the middle man that
+ * communicates with the ModelManager via Projects
+ * and with the GUI via Actions
+ * 
  * @author sdmiller2015
  */
 public class Controller {
     
     private Project currentProject;
 
+    /** [Deprecated] */
     private static final Controller instance = new Controller();
      
-    //private constructor to avoid client applications to use constructor
+
+    /**
+     * [Deprecated]
+     * private constructor to avoid client applications to use constructor
+     */
     Controller(){}
  
+    /**
+     * [Deprecated]
+     * Returns the singleton for the Controller
+     * @return 
+     */
     public static Controller getInstance(){
         return instance;
     }
-    
-//    public GUI gui = factory.getGUI();
-    
-//    public ModelManager mm = factory.getModelManager();
+
     private String status = "waiting";
     
+    /**
+     * This method handles all incoming Actions or passes
+     * them to a method that will handle the Action
+     * 
+     * @param a Action to handle
+     */
     public void manageAction(Action a){
         
         String actionKind = a.getKind();
@@ -63,6 +73,12 @@ public class Controller {
         }
     }
     
+    /**
+     * This method handles all incoming Projects or
+     * passes them to a method that handles the Project
+     * 
+     * @param p Incoming Project
+     */
      public void manageProject(Project p){
             String path = p.getPath();
             String content = p.getContent();
@@ -84,6 +100,12 @@ public class Controller {
             
         }
     
+    /**
+     * That method takes a project that contains feedback information
+     * pertaining to a save
+     * 
+     * @param p Project with save results
+     */
     public void saveFeedback(Project p){
         String content = p.getContent();
         if("success".equals(content))
@@ -96,6 +118,12 @@ public class Controller {
         }
     }
      
+    /**
+     * This methods sends a project's content and document to the GUI 
+     * to be displayed
+     * 
+     * @param p Project with Contents and Document
+     */
     public void returnedProject(Project p){
         if("opening".equals(status))
         {
@@ -106,6 +134,11 @@ public class Controller {
         }
     }
     
+    /**
+     * This method tells the GUI to display a file chooser
+     * 
+     * @param a [Deprecated?] Action for something
+     */
     public void open(Action a){
         if( "waiting".equals(status) )
         {
@@ -114,6 +147,13 @@ public class Controller {
         }
     }
       
+    /**
+     * [Deprecated]
+     * Close the currently opened project
+     * 
+     * @param e Aciton
+     * @return 
+     */
     public Action close (Action e){
         
           if (status== "closing"){ 
@@ -130,6 +170,13 @@ public class Controller {
      }       
     }
     
+    /**
+     * [Deprecated]
+     * Creates a new project
+     * 
+     * @param e
+     * @return 
+     */
     public Action create (Action e){
         if (status=="waiting") {
             
@@ -156,6 +203,12 @@ public class Controller {
           return null;
     }
     
+    /**
+     * Saves the project contained in the action to 
+     * currentProject if it differs form the currentProject
+     * 
+     * @param a Action containing a project
+     */
     public void save (Action a){
         if(status.equals("waiting")){
             status = "saving";
@@ -174,6 +227,13 @@ public class Controller {
         status = "waiting";
     } 
     
+    /**
+     * [Deprecated]
+     * Deletes the currentProject
+     * 
+     * @param e
+     * @return 
+     */
     public Action delete (Action e) {
         
           if (status== "deleting"){ 

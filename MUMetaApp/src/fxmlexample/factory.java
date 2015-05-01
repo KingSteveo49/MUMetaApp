@@ -6,7 +6,8 @@
 package fxmlexample;
 
 /**
- *
+ * Provides Singletons for everyone to play with
+ * 
  * @author sdmiller2015
  */
 public class factory {
@@ -14,22 +15,44 @@ public class factory {
     private static Controller controller =  null;
     private static ModelManager modelmanager = null;
     
+    /**
+     * Sets the Singleton for the GUI
+     * 
+     * @param g GUI Controller
+     */
     public static void setGUIController(GUIController g){
         guicontroller = g;
     }
     
+    /**
+     * Gets the Singleton for the GUI
+     * 
+     * @return 
+     */
     public static GUIController getGUI() {
       if(guicontroller == null) {
          guicontroller = new GUIController();
       }
       return guicontroller;
-   }
+    }
+    
+    /**
+     * Gets the Singleton for the Controller
+     * 
+     * @return 
+     */
     public static Controller getController() {
       if(controller == null) {
          controller = new Controller();
       }
       return controller;
-   }
+    }
+    
+    /**
+     * Gets the Singleton for the ModelManager
+     * 
+     * @return 
+     */
     public static ModelManager getModelManager() {
       if(modelmanager == null) {
          modelmanager = new ModelManager();
