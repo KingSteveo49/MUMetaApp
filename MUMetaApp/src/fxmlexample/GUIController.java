@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.TextArea;
@@ -35,11 +36,14 @@ public class GUIController {
     @FXML Scene scene;
     @FXML MenuBar menuBar;
     @FXML String currentDescValue, previousDescValue;
-    @FXML String uniqueIdentifier = "name";
+    @FXML Button addMenuButton, addItemButton, removeSelectedbutton;
     //Include any other node types that are part of an item that should not be
     //displayed in the tree view
-    @FXML String[] excludedNodeTypes = {"description", "img"};
-    
+    final String[] excludedNodeTypes = {"description", "img"};
+    final String delims = "[\"]+";
+    final String characterToSeperateUniqueLookupName = "_";
+    final String uniqueIdentifier = "name";
+    final String editRootElement = "rootElement";
     
     @FXML
     public void initialize(){
@@ -74,7 +78,7 @@ public class GUIController {
     }
     @FXML 
     protected void displayFeedback(String s) {
-        feedBack.appendText(s);
+        feedBack.appendText(s+"\n");
     }
     @FXML
     protected void displayFileChooser(){
@@ -92,11 +96,23 @@ public class GUIController {
             System.out.println("There was a problem while trying to display the file chooser: "+e.toString());
         }
 }
-    
+    @FXML
+    protected void handleAddMenuAction(){
+        
+    }
+    @FXML
+    protected void handleAddItemAction(){
+        
+    }
+    @FXML
+    protected void handleRemoveSelectedAction(){
+        
+    }
     @FXML
     private void displayFile(Action a){
        
         System.out.println("The GUI is now attempting to display the file");
+        toggleAddRemoveItemButtons();
         
         currentDoc = a.getDoc();
         
@@ -125,16 +141,16 @@ public class GUIController {
                     if(validateNameChange(newTreeValue, oldtreeValue, previouslySelectedTreeItem)){
                         
                         //This is where the dom should be edited to updete the newe value
-                        displayFeedback(lookupName+"\n");
+                        displayFeedback(lookupName);
                         currentDoc = updateDocumentName(currentDoc, lookupName, newTreeValue);
                         
                         //This is where the value in the tree should be updated
                         previouslySelectedTreeItem.setValue(newTreeValue);
-                        displayFeedback("Changed: "+oldtreeValue+" to: "+ newTreeValue+"\n");
+                        displayFeedback("Changed: "+oldtreeValue+" to: "+ newTreeValue);
                         
                     }
                 } else {
-                    displayFeedback("did nothing\n");
+                    displayFeedback("did nothing");
                 }
                 if(!"".equals(selectedDescTextArea.getText())){
                     
@@ -143,7 +159,7 @@ public class GUIController {
                         currentDoc = updateDocumentDesc(currentDoc, lookupName, selectedDescTextArea.getText());
                     }
                 } else {
-                    displayFeedback("did nothing\n");
+                    displayFeedback("did nothing");
                 }
                 }catch(Exception e){
                     System.out.println(e.toString());
@@ -155,8 +171,8 @@ public class GUIController {
                 if(!selectedNameLabel.isVisible()){
                     toggleItemNameVisable();
                 }
-                displayFeedback(lookupDesc+"\n");
-                if(lookupDesc.split("_").length == 1){
+                displayFeedback(lookupDesc);
+                if(lookupDesc.split(characterToSeperateUniqueLookupName).length == 1){
                     selectedDescLabel.setVisible(false);
                     selectedDescTextArea.setVisible(false);
                 }else{
@@ -184,30 +200,32 @@ public class GUIController {
     
     private Document updateDocumentName(Document doc, String lookupName, String newValue){
         
-        String[] splitLookupName = lookupName.split("_");
+        String[] splitLookupName = lookupName.split(characterToSeperateUniqueLookupName);
         String[] uniqueValue;
         
+        //There are 3 different possibilities that could happen
+        //The uniqueValue could be of length 1 - In which case the IF will be triggered
+        //The uniqueValue could be of length 1 AND unique value is rootElement - in which case only the root item of the document will be renamed without looking for anything else
+        //The uniqueValue could be of length 2 - In which case the ESLE will be triggered
         
-        //There are only 2 options for length of the lookup name 1 or 2
-        //The else will be triggered for ITEMS in the document
-        //The if will be triggered for the MENUS in the document
         if(splitLookupName.length == 1){
+            if(lookupName.equalsIgnoreCase(editRootElement)){
+                
+            }
             NodeList possibleUpdates = doc.getElementsByTagName("menu");
-            String delims = "[\"]+";
             
             for(int i = 0; i < possibleUpdates.getLength(); i++){
                 Node n = possibleUpdates.item(i);
                 uniqueValue = n.getAttributes().getNamedItem(uniqueIdentifier).toString().split(delims);
                 if(uniqueValue[1].equalsIgnoreCase(splitLookupName[0])){
                     doc.getElementsByTagName("menu").item(i).getAttributes().getNamedItem(uniqueIdentifier).setTextContent(newValue);
-                    displayFeedback(doc.getElementsByTagName("menu").item(i).getAttributes().getNamedItem(uniqueIdentifier).toString()+"\n");
-                    displayFeedback("Line above should be new doc value \n");
+                    displayFeedback(doc.getElementsByTagName("menu").item(i).getAttributes().getNamedItem(uniqueIdentifier).toString());
+                    displayFeedback("Line above should be new doc value");
                 }
             }
         
         }else{
             NodeList possibleUpdates = doc.getElementsByTagName("item");
-            String delims = "[\"]+";
             
             
             for(int i = 0; i<possibleUpdates.getLength(); i++){
@@ -217,8 +235,8 @@ public class GUIController {
                     String parent = n.getParentNode().getAttributes().getNamedItem(uniqueIdentifier).toString().split(delims)[1];
                     if(parent.equalsIgnoreCase(splitLookupName[1])){
                         doc.getElementsByTagName("item").item(i).getAttributes().getNamedItem(uniqueIdentifier).setTextContent(newValue);
-                        displayFeedback(doc.getElementsByTagName("item").item(i).getAttributes().getNamedItem(uniqueIdentifier).toString()+"\n");
-                        displayFeedback("Line above should be new doc value \n");
+                        displayFeedback(doc.getElementsByTagName("item").item(i).getAttributes().getNamedItem(uniqueIdentifier).toString());
+                        displayFeedback("Line above should be new doc value");
                     }
                 }
             }
@@ -230,9 +248,9 @@ public class GUIController {
     }
     
     private Document updateDocumentDesc(Document doc, String lookupName, String newValue){
-        String delims = "[\"]+";
+        
         String[] uniqueValue;
-        String[] splitLookupName = lookupName.split("_");
+        String[] splitLookupName = lookupName.split(characterToSeperateUniqueLookupName);
         
         NodeList possibleUpdates = doc.getElementsByTagName("item");
             
@@ -258,21 +276,20 @@ public class GUIController {
         TreeItem parentOfLookup = lookupTreeItem.getParent();
         if(parentOfLookup!=null){
             while(!parentOfLookup.getValue().toString().equalsIgnoreCase(contentTreeView.getRoot().getValue().toString())){
-                lookupName = lookupName+"_"+parentOfLookup.getValue().toString();
+                lookupName = lookupName+characterToSeperateUniqueLookupName+parentOfLookup.getValue().toString();
                 parentOfLookup = parentOfLookup.getParent();
             }
         }else{
-            lookupName ="rootElement";
+            lookupName = editRootElement;
         }
         return lookupName;
     }
     
     private String getItemDescription(Document doc, String lookupName){
-        displayFeedback("Getting item description\n");
+        displayFeedback("Getting item description");
         String description = "";
-        String delims = "[\"]+";
         String[] uniqueValue;
-        String[] splitLookupName = lookupName.split("_");
+        String[] splitLookupName = lookupName.split(characterToSeperateUniqueLookupName);
         
         NodeList possibleUpdates = doc.getElementsByTagName("item");
             
@@ -294,6 +311,18 @@ public class GUIController {
         return description;
     }
     
+    private void toggleAddRemoveItemButtons(){
+        if(!addMenuButton.isVisible()){
+            addMenuButton.setVisible(true);
+            addItemButton.setVisible(true);
+            removeSelectedbutton.setVisible(true);
+        }else{
+            addMenuButton.setVisible(false);
+            addItemButton.setVisible(false);
+            removeSelectedbutton.setVisible(false);
+        }
+    }
+    
     private void toggleItemNameVisable(){
         if(selectedNameLabel.isVisible()){
             selectedNameLabel.setVisible(false);
@@ -305,28 +334,28 @@ public class GUIController {
     }
     
     private boolean validateNameChange(String newValue, String oldValue, TreeItem ti){
-        System.out.println("Chacking name validity");
         int count = 0;
         if(!newValue.equals(oldValue)){
             TreeItem parent = ti.getParent();
             ObservableList children = parent.getChildren();
             for (int i = 0; i<children.size(); i++) {
                 String tempString = "TreeItem [ value: "+newValue+" ]";
-                if(children.get(i).toString().equalsIgnoreCase(tempString)){
+                if(children.get(i).toString().equalsIgnoreCase(tempString)&&!ti.equals(children.get(i))){
                     count++;
                 }
             }
             if(count==0){
                 return true;
             }else{
-                displayFeedback("Sorry but there is already an entry under that is named: "+newValue+"\n");
+                displayFeedback("Sorry but there is already an entry under that is named: "+newValue);
                 return false;
             }
         }else{
-            displayFeedback("Nothing to update \n");
+            displayFeedback("Nothing to update");
             return false;
         }
     }
+    
     private boolean validateNode(String nodeType){
         Boolean good = false;
         for (int i = 0; i<excludedNodeTypes.length; i++) {
@@ -350,7 +379,6 @@ public class GUIController {
         if (aNode.hasChildNodes()){
             if(validateNode(aNode.getNodeName())){
                 value = aNode.getAttributes().getNamedItem(uniqueIdentifier).toString();
-                String delims = "[\"]+";
                 String[] splitString = value.split(delims);
                 value = splitString[1];
 
@@ -384,13 +412,9 @@ public class GUIController {
 //            window.setHeight(790);
 //        }
         
-        
         w = scene.getWidth();
         h = scene.getHeight();
         System.out.println("test:" + feedBack.getHeight());
-        
-        
-       
         
     }
     
@@ -404,7 +428,7 @@ public class GUIController {
 
             @Override
             public void handle(MouseEvent event) {
-                displayFeedback(l.getId()+ " was pressed, adding new label \n");
+                displayFeedback(l.getId()+ " was pressed, adding new label");
                 testyTest();
             }
         });
