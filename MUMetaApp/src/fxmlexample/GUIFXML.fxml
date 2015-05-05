@@ -62,6 +62,15 @@
         </TreeView>
     </ScrollPane>
     
+    <VBox fx:id="addRemoveItemsButtonsBox" GridPane.columnIndex="0" GridPane.rowIndex="3" 
+          GridPane.columnSpan="2" fillWidth="true">
+        <GridPane alignment="CENTER_LEFT" vgap="5" hgap="5"  > 
+            <Button fx:id="addMenuButton" GridPane.columnIndex="0" GridPane.rowIndex="0" onAction="#handleAddMenuAction" text="Add Menu" visible="false" />
+            <Button fx:id="addItemButton" GridPane.columnIndex="1" GridPane.rowIndex="0" onAction="#handleAddItemAction" text="Add Item" visible="false"/>
+            <Button fx:id="removeSelectedbutton" GridPane.columnIndex="2" GridPane.rowIndex="0" onAction="#handleRemoveSelectedAction" text="Remove Selected" visible="false"/>
+        </GridPane>
+    </VBox>
+    
     <ScrollPane GridPane.columnIndex="1" GridPane.rowIndex="1" 
                 fx:id="workAreaPanel" id="workAreaPanel" GridPane.rowSpan="1" 
                 fitToHeight="true" fitToWidth="true"  scaleShape="true" 
