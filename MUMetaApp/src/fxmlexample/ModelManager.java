@@ -1,7 +1,25 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2015 sdmiller2015.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
 
 package fxmlexample;
@@ -21,6 +39,7 @@ import java.io.Serializable;
 import java.util.Scanner;
 import utilities.Project;
 import utilities.Tools;
+import utilities.Export;
 
 /**
  * The ModelManager handles all of the data that Meta-App needs to store.
@@ -71,6 +90,13 @@ public class ModelManager {
             case "update":
             //Expecting Path in Data
             case "delete":
+                
+            //Exports the Project into an actual App
+            case "export":
+                System.out.println("Exporting!!");
+                Export.inject(p.getDoc());
+                break;
+                
             //Expecting Path and Content in Data
             case "setText":
                 writeToFile(path,content);
@@ -217,26 +243,9 @@ public class ModelManager {
      * Makes a new app structure at desired location
      * 
      * @param path Path to resulting folder structure
-     * @return 
      */
-    private boolean createNewProjectStructure(String path)
+    private void createNewApp(String title)
     {
-        path += "/root";
-        String root = path;
-        String src = path+"/src";
-        String config = path+"/config";
-
-        new File(root).mkdirs();
-        new File(src).mkdirs();
-        new File(config).mkdirs();
-
-        writeToFile(root+"/README.txt","This is Meta-App! Use it as you wish...");
-        writeToFile(config+"/design.txt",""
-        +"{\n"
-        +"    Background: Black;\n"
-        +"    Font: Comic-Sans;\n"
-        +"    FontSize: 12;\n"
-        +"}\n");
-        return true;
+        new File("../Projects/"+title).mkdir();
     }
 }
