@@ -42,7 +42,7 @@ public class GUIController {
     //Include any other node types that are part of an item that should not be
     //displayed in the tree view
     final String[] excludedNodeTypes = {"description", "img"};
-    final String delims = "[\"]+";
+    final String characterToSeperateAttributes = "[\"]+";
     final String characterToSeperateUniqueLookupName = "_";
     final String characterToSeperateID = ".";
     final String uniqueIdentifier = "name";
@@ -111,9 +111,33 @@ public class GUIController {
     }
     @FXML
     protected void handleAddItemAction(){
+        int menuPosition = -1;
+        TreeItem newItem;
         Element itemToBeAdded = currentDoc.createElement("item");
+        Element imgElement = currentDoc.createElement("img");
+        Element descriptionElement = currentDoc.createElement("description");
         
-        itemToBeAdded.setAttribute("id", "1."+ ""+ (getNumberOfChildren(currentlySelectedTreeItem.getParent())+1));
+        itemToBeAdded.appendChild(imgElement);
+        itemToBeAdded.appendChild(descriptionElement);
+        
+        if(determineMenuItemOrRoot(currentlySelectedTreeItem).equalsIgnoreCase("menu")){
+            menuPosition = getMenuPosition(currentlySelectedTreeItem);
+            newItem = new TreeItem("Item "+(getNumberOfChildren(currentlySelectedTreeItem)+1));
+            itemToBeAdded.setAttribute("name", "Item "+(getNumberOfChildren(currentlySelectedTreeItem)+1));
+            itemToBeAdded.setAttribute("id", "1."+ menuPosition +"."+ (getNumberOfChildren(currentlySelectedTreeItem.getParent())+1));
+            currentlySelectedTreeItem.getChildren().add(newItem);
+        }
+        if(determineMenuItemOrRoot(currentlySelectedTreeItem).equalsIgnoreCase("item")){
+            menuPosition = getMenuPosition(currentlySelectedTreeItem.getParent());
+            newItem = new TreeItem("Item "+(getNumberOfChildren(currentlySelectedTreeItem.getParent())+1));
+            itemToBeAdded.setAttribute("name", "Item "+(getNumberOfChildren(currentlySelectedTreeItem.getParent())+1));
+            itemToBeAdded.setAttribute("id", "1."+ menuPosition +"."+ (getNumberOfChildren(currentlySelectedTreeItem.getParent())+1));
+            currentlySelectedTreeItem.getParent().getChildren().add(newItem);
+        }
+        
+        
+        currentDoc.getDocumentElement().getElementsByTagName("menu").item(menuPosition).appendChild(itemToBeAdded);
+        
         
     }
     @FXML
@@ -212,6 +236,12 @@ public class GUIController {
         mainTitle.setVisible(true);
     }
     
+    
+    //Method that takes in a tree item, generally the currently selected and determines if that item i the root, a menu, or an item
+    //There are three return values respectively
+    //-root:if the selected tree item is the root
+    //-menu:if the selected tree item is a menu in the tree view
+    //-item:if the selected tree item is an item under a menu
     private String determineMenuItemOrRoot(TreeItem ti){
         String menuItemroot = "";
         if(ti.equals(contentTreeView.getRoot())){
@@ -246,7 +276,7 @@ public class GUIController {
             
             for(int i = 0; i < possibleUpdates.getLength(); i++){
                 Node n = possibleUpdates.item(i);
-                uniqueValue = n.getAttributes().getNamedItem(uniqueIdentifier).toString().split(delims);
+                uniqueValue = n.getAttributes().getNamedItem(uniqueIdentifier).toString().split(characterToSeperateAttributes);
                 if(uniqueValue[1].equalsIgnoreCase(splitLookupName[0])){
                     doc.getElementsByTagName("menu").item(i).getAttributes().getNamedItem(uniqueIdentifier).setTextContent(newValue);
                     displayFeedback(doc.getElementsByTagName("menu").item(i).getAttributes().getNamedItem(uniqueIdentifier).toString());
@@ -260,9 +290,9 @@ public class GUIController {
             
             for(int i = 0; i<possibleUpdates.getLength(); i++){
                 Node n = possibleUpdates.item(i);
-                uniqueValue = n.getAttributes().getNamedItem(uniqueIdentifier).toString().split(delims);
+                uniqueValue = n.getAttributes().getNamedItem(uniqueIdentifier).toString().split(characterToSeperateAttributes);
                 if(uniqueValue[1].equalsIgnoreCase(splitLookupName[0])){
-                    String parent = n.getParentNode().getAttributes().getNamedItem(uniqueIdentifier).toString().split(delims)[1];
+                    String parent = n.getParentNode().getAttributes().getNamedItem(uniqueIdentifier).toString().split(characterToSeperateAttributes)[1];
                     if(parent.equalsIgnoreCase(splitLookupName[1])){
                         doc.getElementsByTagName("item").item(i).getAttributes().getNamedItem(uniqueIdentifier).setTextContent(newValue);
                         displayFeedback(doc.getElementsByTagName("item").item(i).getAttributes().getNamedItem(uniqueIdentifier).toString());
@@ -287,9 +317,9 @@ public class GUIController {
             
             for(int i = 0; i<possibleUpdates.getLength(); i++){
                 Node n = possibleUpdates.item(i);
-                uniqueValue = n.getAttributes().getNamedItem(uniqueIdentifier).toString().split(delims);
+                uniqueValue = n.getAttributes().getNamedItem(uniqueIdentifier).toString().split(characterToSeperateAttributes);
                 if(uniqueValue[1].equalsIgnoreCase(splitLookupName[0])){
-                    String parent = n.getParentNode().getAttributes().getNamedItem(uniqueIdentifier).toString().split(delims)[1];
+                    String parent = n.getParentNode().getAttributes().getNamedItem(uniqueIdentifier).toString().split(characterToSeperateAttributes)[1];
                     if(parent.equalsIgnoreCase(splitLookupName[1])){
                         
                         doc.getElementsByTagName("description").item(i).setTextContent(newValue);
@@ -315,20 +345,6 @@ public class GUIController {
         return lookupName;
     }
     
-    private int getIndex(String uniqueValue, String indexTypeToLookup){
-        int index = -1;
-        
-        NodeList elementsOfTypeIndex = currentDoc.getElementsByTagName(indexTypeToLookup);
-        
-        for(int i = 0; i<elementsOfTypeIndex.getLength(); i++){
-            if(elementsOfTypeIndex.item(i).equals(i)){
-                index = i;
-                return index;
-            }
-        }
-        
-        return index;
-    }
     
     private String getItemDescription(Document doc, String lookupName){
         displayFeedback("Getting item description");
@@ -341,9 +357,9 @@ public class GUIController {
             
             for(int i = 0; i<possibleUpdates.getLength(); i++){
                 Node n = possibleUpdates.item(i);
-                uniqueValue = n.getAttributes().getNamedItem(uniqueIdentifier).toString().split(delims);
+                uniqueValue = n.getAttributes().getNamedItem(uniqueIdentifier).toString().split(characterToSeperateAttributes);
                 if(uniqueValue[1].equalsIgnoreCase(splitLookupName[0])){
-                    String parent = n.getParentNode().getAttributes().getNamedItem(uniqueIdentifier).toString().split(delims)[1];
+                    String parent = n.getParentNode().getAttributes().getNamedItem(uniqueIdentifier).toString().split(characterToSeperateAttributes)[1];
                     if(parent.equalsIgnoreCase(splitLookupName[1])){
                         
                         description = doc.getElementsByTagName("description").item(i).getTextContent();
@@ -364,7 +380,8 @@ public class GUIController {
     private int getMenuPosition(TreeItem ti){
         ObservableList ol = contentTreeView.getRoot().getChildren();
         for(int i = 0; i< ol.size(); i++){
-            if(ti.getValue().equals(ol.get(i).toString())){
+            if(ti.equals(ol.get(i))){
+                System.out.println(i);
                 return i;
             }
         }
@@ -439,7 +456,7 @@ public class GUIController {
         if (aNode.hasChildNodes()){
             if(validateNode(aNode.getNodeName())){
                 value = aNode.getAttributes().getNamedItem(uniqueIdentifier).toString();
-                String[] splitString = value.split(delims);
+                String[] splitString = value.split(characterToSeperateAttributes);
                 value = splitString[1];
 
                 item = new TreeItem(value);
