@@ -110,10 +110,10 @@ public class GUIController {
         
     }
     @FXML
-    protected void handleAddItemAction(TreeItem ti){
+    protected void handleAddItemAction(){
         Element itemToBeAdded = currentDoc.createElement("item");
         
-        itemToBeAdded.setAttribute("id", "1."+ ""+ (getNumberOfChildren(ti.getParent())+1));
+        itemToBeAdded.setAttribute("id", "1."+ ""+ (getNumberOfChildren(currentlySelectedTreeItem.getParent())+1));
         
     }
     @FXML
@@ -319,6 +319,13 @@ public class GUIController {
         int index = -1;
         
         NodeList elementsOfTypeIndex = currentDoc.getElementsByTagName(indexTypeToLookup);
+        
+        for(int i = 0; i<elementsOfTypeIndex.getLength(); i++){
+            if(elementsOfTypeIndex.item(i).equals(i)){
+                index = i;
+                return index;
+            }
+        }
         
         return index;
     }
