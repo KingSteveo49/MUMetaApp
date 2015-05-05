@@ -20,7 +20,9 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import utilities.Action;
@@ -32,7 +34,7 @@ public class GUIController {
     @FXML Document currentDoc;
     @FXML Label mainTitle, selectedNameLabel, selectedDescLabel;
     @FXML TreeView contentTreeView;
-    @FXML TreeItem previouslySelectedTreeItem;
+    @FXML TreeItem previouslySelectedTreeItem, currentlySelectedTreeItem;
     @FXML Scene scene;
     @FXML MenuBar menuBar;
     @FXML String currentDescValue, previousDescValue;
@@ -42,6 +44,7 @@ public class GUIController {
     final String[] excludedNodeTypes = {"description", "img"};
     final String delims = "[\"]+";
     final String characterToSeperateUniqueLookupName = "_";
+    final String characterToSeperateID = ".";
     final String uniqueIdentifier = "name";
     final String editRootElement = "rootElement";
     
@@ -98,10 +101,19 @@ public class GUIController {
 }
     @FXML
     protected void handleAddMenuAction(){
+        TreeItem newMenu = new TreeItem("Menu "+ (getNumberOfChildren(contentTreeView.getRoot())+1));
+        Element elementToAppend = currentDoc.createElement("menu");
+        elementToAppend.setAttribute("id", "1."+(getNumberOfChildren(contentTreeView.getRoot())+1));
+        elementToAppend.setAttribute("name", "Menu "+ (getNumberOfChildren(contentTreeView.getRoot())+1));
+        contentTreeView.getRoot().getChildren().add(newMenu);
+        currentDoc.getDocumentElement().appendChild(elementToAppend);
         
     }
     @FXML
-    protected void handleAddItemAction(){
+    protected void handleAddItemAction(TreeItem ti){
+        Element itemToBeAdded = currentDoc.createElement("item");
+        
+        itemToBeAdded.setAttribute("id", "1."+ ""+ (getNumberOfChildren(ti.getParent())+1));
         
     }
     @FXML
@@ -123,6 +135,8 @@ public class GUIController {
             @Override
             public void changed(ObservableValue<? extends TreeItem<String>> observable,TreeItem<String> old_val, TreeItem<String> new_val) {
                 TreeItem<String> selectedItem = new_val;
+                currentlySelectedTreeItem = selectedItem;
+                determineMenuItemOrRoot(currentlySelectedTreeItem);
                 if(previouslySelectedTreeItem==null){
                     previouslySelectedTreeItem = selectedItem;
                     
@@ -196,6 +210,22 @@ public class GUIController {
         mainTitle.setText(contentTreeView.getRoot().getValue().toString());
         mainTitle.setFont(new Font("Cambria", 32));
         mainTitle.setVisible(true);
+    }
+    
+    private String determineMenuItemOrRoot(TreeItem ti){
+        String menuItemroot = "";
+        if(ti.equals(contentTreeView.getRoot())){
+            menuItemroot = "root";
+            return menuItemroot;
+        }
+        if(ti.getParent().equals(contentTreeView.getRoot())){
+            menuItemroot = "menu";
+        }
+        if(!ti.getParent().equals(contentTreeView.getRoot())){
+            menuItemroot = "item";
+        }
+        
+        return menuItemroot;
     }
     
     private Document updateDocumentName(Document doc, String lookupName, String newValue){
@@ -285,6 +315,14 @@ public class GUIController {
         return lookupName;
     }
     
+    private int getIndex(String uniqueValue, String indexTypeToLookup){
+        int index = -1;
+        
+        NodeList elementsOfTypeIndex = currentDoc.getElementsByTagName(indexTypeToLookup);
+        
+        return index;
+    }
+    
     private String getItemDescription(Document doc, String lookupName){
         displayFeedback("Getting item description");
         String description = "";
@@ -309,6 +347,21 @@ public class GUIController {
         
         
         return description;
+    }
+    
+    private int getNumberOfChildren(TreeItem t){
+        ObservableList ol = t.getChildren();
+        return ol.size();
+    }
+    
+    private int getMenuPosition(TreeItem ti){
+        ObservableList ol = contentTreeView.getRoot().getChildren();
+        for(int i = 0; i< ol.size(); i++){
+            if(ti.getValue().equals(ol.get(i).toString())){
+                return i;
+            }
+        }
+        return -1;
     }
     
     private void toggleAddRemoveItemButtons(){
