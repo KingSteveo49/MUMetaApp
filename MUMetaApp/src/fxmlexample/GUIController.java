@@ -44,7 +44,6 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -88,7 +87,7 @@ public class GUIController {
     }
     @FXML
     protected void handleNewAction(ActionEvent event){
-        
+        factory.getController().manageAction(new Action("newProject", null));
     }
     @FXML
     protected void handleOpenAction(ActionEvent event){

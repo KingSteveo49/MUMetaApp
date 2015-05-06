@@ -121,6 +121,10 @@ public class ModelManager {
                 System.out.println("Model retrieving file from: "+path);
                 factory.getController().manageProject(new Project(path,null,"returningProject", Tools.getDoc(path)));
                 break;
+                
+            case "getDefaultXML":
+                factory.getController().manageProject(new Project(null,null,"returningProject", Tools.getDoc("src\\fxmlexample\\Default.xml")));
+                break;
 
             case "getSerial":
                 readSerializable(path);

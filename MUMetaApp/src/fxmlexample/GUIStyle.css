@@ -24,15 +24,25 @@
 
 .root{
     -fx-background-image: url("background.jpg");
+    -fx-background-size: stretch;
     -fx-scale-x: 1;
 }
+
+.menu-bar{
+    -fx-background-color: linear-gradient(to bottom, silver, ghostwhite);
+}
+
+.menu-bar .context-menu{
+    -fx-effect: dropshadow( gaussian , white , 0,50,0,0 );
+    -fx-background-color: ghostwhite;
+}
+
+
 #rootElement{
     -fx-scale-x: 1;
     -fx-scale-shape: true;
 }
-.contextMenu{
-    
-}
+
 #selectedNameTextArea{
     -fx-font-size: 15px;
 }
@@ -49,15 +59,80 @@
     -fx-text-fill: #333333;
     -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
 }
+
 #feedBack{
-    -fx-opacity: .55;
-    -fx-scale-x: 1;
+    -fx-text-fill: royalblue;
+    -fx-background-color: rgba(0,0,0,.15);
+    -fx-border-style: solid;
+    -fx-border-color: white;
 }
+#feedBack .scroll-pane{
+    -fx-background-color: transparent;
+}
+#feedBack .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+#feedBack .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
 #optionsPanel{
-    -fx-opacity: .55;
+    -fx-background-color: rgba(0,0,0,.15);
+    -fx-scale-x: 1;
+    -fx-border-style: solid;
+    -fx-border-color: white;
+}
+#optionsPanel .viewport{
+    -fx-background-color: transparent;
+}
+
+
+#contentTreeView{
+    -fx-background-color: transparent;
     -fx-scale-x: 1;
 }
+#contentTreeView .tree-cell{
+    -fx-background-color: transparent;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+}
+#contentTreeView .tree-cell:selected{
+    -fx-background-color: rgba(191,255,0,.7);
+    -fx-background-radius: 7;
+    -fx-border-style: solid;
+    -fx-border-color: white;
+    -fx-border-radius: 7;
+}
+
+
 #workAreaPanel{
-    -fx-opacity: .55;
+    -fx-background-color: rgba(0,0,0,.15);
     -fx-scale-x: 1;
+    -fx-border-style: solid;
+    -fx-border-color: white;
+}
+#workAreaPanel .label{
+    -fx-text-fill: white;
+}
+#workAreaPanel .viewport{
+     -fx-background-color: transparent;
+}
+#workAreaPanel .text-area{
+    -fx-scale-x: .95;
+    -fx-background-color: rgba(255,5255,255,.15);
+    -fx-text-fill: lime;
+}
+#workAreaPanel .text-area #selectedDescLabel{
+    -fx-scale-y: .95;
+}
+#workAreaPanel .text-area .scroll-pane{
+    -fx-background-color: transparent;
+}
+#workAreaPanel .text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+#workAreaPanel .text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
 }

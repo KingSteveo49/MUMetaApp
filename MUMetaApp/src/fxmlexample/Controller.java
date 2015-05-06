@@ -74,6 +74,10 @@ public class Controller {
         
         switch(actionKind)
         {
+            case "newProject":
+                status = "opening";
+                factory.getModelManager().manageProject(new Project(null,null,"getDefaultXML"));
+                break;
             case "export":
                 factory.getModelManager().manageProject(new Project(currentProject.getPath(), null,"export", currentProject.getDoc()));
                 break;
@@ -87,7 +91,6 @@ public class Controller {
                 return;
                 
             case "fileLocationChosen":
-                System.out.println("This is the controller about to send the file location to the model");
                 factory.getModelManager().manageProject(new Project(actionContent,null,"getXML"));
                 return;
                 
