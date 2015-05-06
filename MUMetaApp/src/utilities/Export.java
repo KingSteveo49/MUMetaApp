@@ -23,17 +23,17 @@ import java.util.Scanner;
 public class Export 
 {
 	static final String deadGiveAway = "String xml = \"";
-	static final String absAppPath = "C:\\Users\\bmbolen2017\\AndroidStudioProjects\\";
+	static final String absAppsPath = "C:\\Users\\bmbolen2017\\AndroidStudioProjects\\"; //System.getProperty("user.dir");
         static final String relativeTargetPath = "MyApplication\\app\\src\\main\\java\\com\\example\\bmbolen2017\\myapplication\\";
         static final String targetFile = "XMLParser.java";
-        static final String victimFile = absAppPath+relativeTargetPath+targetFile;
+        static final String victimFile = absAppsPath+relativeTargetPath+targetFile;
         static final String encodeWith = "UTF-8";
         
         /**
          * This takes the new innards of the victim and injects
          * them back into the victim
          * 
-         * @param injection 
+         * @param injection Injection is the XML for the app
          */
 	public static void inject(String injection)
 	{
@@ -49,6 +49,19 @@ public class Export
 			catch(Exception e){ }
 		}
 	}
+        
+        /**
+         * Creates App Directory 'title' and takes the 'injection' 
+         * XML and splices it into the app
+         * 
+         * @param injection Injection is the XML for the app
+         * @param title Title of the app dir
+         */
+        public static void inject(String injection, String title)
+        {
+            mkDir(title);
+            inject(injection);
+        }
 
         /**
          * This rips the original innards out of the victim file 
@@ -82,7 +95,7 @@ public class Export
          * dead-give-away inside the bloody mess. It cuts the bloody mess
          * in half at that point, places the injection in the middle.
          * 
-         * @param injection
+         * @param injection Injection is the XML for the app
          * @return the new innards to be replaced in the victim file
          */
 	private static String copy(String injection)
@@ -103,4 +116,14 @@ public class Export
 		}
 		return null;
 	}
+        
+        /**
+         * Copies the default app directory into a new
+         * directory 'title'
+         * 
+         * @param title Title of the new directory
+         */
+        private static void mkDir(String title){
+            new File(absAppsPath+"\\"+title).mkdir();
+        }
 }
