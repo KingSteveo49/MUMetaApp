@@ -1,14 +1,48 @@
+/*
+ * The MIT License
+ *
+ * Copyright 2015 sdmiller2015.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 .root{
     -fx-background-image: url("background.jpg");
+    -fx-background-size: stretch;
     -fx-scale-x: 1;
 }
+
+.menu-bar{
+    -fx-background-color: linear-gradient(to bottom, silver, ghostwhite);
+}
+
+.menu-bar .context-menu{
+    -fx-effect: dropshadow( gaussian , white , 0,50,0,0 );
+    -fx-background-color: ghostwhite;
+}
+
+
 #rootElement{
     -fx-scale-x: 1;
     -fx-scale-shape: true;
 }
-.contextMenu{
-    
-}
+
 #selectedNameTextArea{
     -fx-font-size: 15px;
 }
@@ -25,15 +59,80 @@
     -fx-text-fill: #333333;
     -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
 }
+
 #feedBack{
-    -fx-opacity: .55;
-    -fx-scale-x: 1;
+    -fx-text-fill: royalblue;
+    -fx-background-color: rgba(0,0,0,.15);
+    -fx-border-style: solid;
+    -fx-border-color: white;
 }
+#feedBack .scroll-pane{
+    -fx-background-color: transparent;
+}
+#feedBack .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+#feedBack .scroll-pane .viewport{
+    -fx-background-color: transparent;
+}
+
+
 #optionsPanel{
-    -fx-opacity: .55;
+    -fx-background-color: rgba(0,0,0,.15);
+    -fx-scale-x: 1;
+    -fx-border-style: solid;
+    -fx-border-color: white;
+}
+#optionsPanel .viewport{
+    -fx-background-color: transparent;
+}
+
+
+#contentTreeView{
+    -fx-background-color: transparent;
     -fx-scale-x: 1;
 }
+#contentTreeView .tree-cell{
+    -fx-background-color: transparent;
+    -fx-font-weight: bold;
+    -fx-text-fill: white;
+    -fx-font-size: 15;
+}
+#contentTreeView .tree-cell:selected{
+    -fx-background-color: rgba(191,255,0,.7);
+    -fx-background-radius: 7;
+    -fx-border-style: solid;
+    -fx-border-color: white;
+    -fx-border-radius: 7;
+}
+
+
 #workAreaPanel{
-    -fx-opacity: .55;
+    -fx-background-color: rgba(0,0,0,.15);
     -fx-scale-x: 1;
+    -fx-border-style: solid;
+    -fx-border-color: white;
+}
+#workAreaPanel .label{
+    -fx-text-fill: white;
+}
+#workAreaPanel .viewport{
+     -fx-background-color: transparent;
+}
+#workAreaPanel .text-area{
+    -fx-scale-x: .95;
+    -fx-background-color: rgba(255,5255,255,.15);
+    -fx-text-fill: lime;
+}
+#workAreaPanel .text-area #selectedDescLabel{
+    -fx-scale-y: .95;
+}
+#workAreaPanel .text-area .scroll-pane{
+    -fx-background-color: transparent;
+}
+#workAreaPanel .text-area .scroll-pane .content{
+    -fx-background-color: transparent;
+}
+#workAreaPanel .text-area .scroll-pane .viewport{
+    -fx-background-color: transparent;
 }

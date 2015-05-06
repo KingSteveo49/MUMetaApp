@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<app id="1" name="AppName">
+	<menu id="1.1" name="MainMenu1">
+		<item id="1.1.1" name="e">
+			<img alt="" src=""/>
+			<description>Item Description</description>
+		</item>
+		<item id="1.1.2" name="pi">
+			<img alt="" src=""/>
+			<description>Cake and eat it</description>
+		</item>
+	</menu>
+	<menu id="1.2" name="MainMenu123">
+		<item id="1.2.1" name="Cake">
+			<img alt="" src=""/>
+			<description>Item Description</description>
+		</item>
+		<item id="1.2.2" name="Pie">
+			<img alt="" src=""/>
+			<description>Item Description</description>
+		</item>
+	</menu>
+	<menu id="1.3" name="Coookies">
+		<item id="1.3.1" name="Pizza">
+			<img alt="" src=""/>
+			<description>Item Description</description>
+		</item>
+		<item id="1.3.2" name="Toilet">
+			<img alt="" src=""/>
+			<description>Item Description</description>
+		</item>
+	</menu>
+</app>

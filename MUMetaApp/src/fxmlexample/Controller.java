@@ -1,3 +1,27 @@
+/*
+ * The MIT License
+ *
+ * Copyright 2015 sdmiller2015.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
+ */
+
 package fxmlexample;
 
 import java.io.IOException;
@@ -50,6 +74,13 @@ public class Controller {
         
         switch(actionKind)
         {
+            case "newProject":
+                status = "opening";
+                factory.getModelManager().manageProject(new Project(null,null,"getDefaultXML"));
+                break;
+            case "export":
+                factory.getModelManager().manageProject(new Project(currentProject.getPath(), null,"export", currentProject.getDoc()));
+                break;
             case "open":
                 open(a);
                 return;
@@ -60,7 +91,6 @@ public class Controller {
                 return;
                 
             case "fileLocationChosen":
-                System.out.println("This is the controller about to send the file location to the model");
                 factory.getModelManager().manageProject(new Project(actionContent,null,"getXML"));
                 return;
                 
@@ -222,7 +252,7 @@ public class Controller {
         {
             factory.getModelManager().manageProject(new Project(currentProject.getPath(), null,"setXML", a.getDoc()));
             currentProject.setContent(a.getContent());
-            
+            currentProject.setDoc(a.getDoc());
         }
         status = "waiting";
     } 

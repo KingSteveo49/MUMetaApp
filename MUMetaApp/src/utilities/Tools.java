@@ -1,14 +1,34 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * The MIT License
+ *
+ * Copyright 2015 sdmiller2015.
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+ * THE SOFTWARE.
  */
+
 
 package utilities;
 
 import com.sun.org.apache.xerces.internal.parsers.DOMParser;
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -16,6 +36,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
@@ -127,8 +148,32 @@ public class Tools {
     }
     catch(ParserConfigurationException | TransformerException exc)
     {
-      System.out.println("error");
+      exc.printStackTrace();
     }
   }
     
+    public static String docToString(Document doc)
+        {
+            try{
+                StringWriter sw = new StringWriter();
+                TransformerFactory tf = TransformerFactory.newInstance();
+                Transformer transformer = tf.newTransformer();
+                transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+                transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+                
+                transformer.transform(new DOMSource(doc), new StreamResult(sw));
+                String xml = sw.toString();
+                xml = xml.replace("\"".subSequence(0, 1), "\\\"".subSequence(0, 2));
+                xml = xml.replace("\n".subSequence(0, 1), " ".subSequence(0, 1));
+                xml = xml.replace("\r".subSequence(0, 1), " ".subSequence(0, 1));
+                return xml;
+                
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            return null;
+        }
+        
 }
