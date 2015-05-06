@@ -86,9 +86,9 @@ public class Export
         public static void inject(Document injection)
         {
             String title = injection.getDocumentElement().getAttribute("name");
-            String victumFile = projectsDir+title+relativeTargetPath+targetFile;
+            String victumFile = projectsDir+title+"\\"+relativeTargetPath+targetFile;
             cpDefaultApp(title);
-//            inject(Tools.docToString(injection), victumFile);
+            inject(Tools.docToString(injection), victumFile);
         }
 
         /**
@@ -114,6 +114,7 @@ public class Export
             {
                 bloodyMess = "ERROR: Your path was crap...";
                 System.out.println("ERROR: Export: dissect(): Trying to read text from file faied");
+                e.printStackTrace();
             }
             return bloodyMess;
 	}
